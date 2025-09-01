@@ -1,0 +1,24 @@
+# ---- Django / Python ----
+venv/
+__pycache__/
+*.py[cod]
+*.sqlite3
+*.log
+/media/
+
+# ---- React / Node ----
+/front/node_modules/
+/front/build
+/front/.pnp
+/front/.pnp.js
+
+# ---- Common ----
+.DS_Store
+.env
+.env.*
+
+# 캐시 & 컴파일 파일
+__pycache__/      # 파이썬 캐시 폴더
+*.py[cod]         # .pyc, .pyo 같은 파이썬 바이트코드 파일
+*.sqlite3         # 개발용 sqlite DB 파일
+*.log             # 로그 파일
