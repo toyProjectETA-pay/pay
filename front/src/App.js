@@ -25,6 +25,18 @@ function App() {
     console.log(menuQty);
   }, [menuQty]);
 
+  const onSelectMenu = (id, qty) => {
+    setMenuQty(prev => {
+      if (qty === 0) return prev.filter(item => item.id !== id);
+      const exists = prev.find(item => item.id === id);
+      if (exists) {
+        return prev.map(item => item.id === id ? { ...item, qty } : item);
+      } else {
+        return [...prev, { id, qty }];
+      }
+    });
+  };
+
   return (
     <div className="App">
       <header>
@@ -38,22 +50,8 @@ function App() {
       />
       <Menu 
         menuData={menu}
-        onSelectMenu={(id, qty)=>{
-          setMenuQty((prevItems) => {
-            // 기존에 동일 id가 있으면 덮어쓰기, 없으면 새로 추가
-            const exists = prevItems.find(item => item.id === id);
-            if (exists) {
-              if(qty === 0){
-                return prevItems.filter(item => item.id !== id);
-              }
-              return prevItems.map(item =>
-                item.id === id ? { ...item, qty } : item
-              );
-            } else {
-              return [...prevItems, { id, qty }];
-            }
-          });
-        }}
+        menuQty={menuQty}
+        onSelectMenu={onSelectMenu}
       />
     </div>
   );
