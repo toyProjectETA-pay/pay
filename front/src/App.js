@@ -7,6 +7,7 @@ import { loadMenu, getActivatedMenuList } from './Handler/menuLoader.js';
 function App() {
   const [activated, setActivated] = useState('main');
   const [menu, setMenu] = useState(null);
+  const [menuQty, setMenuQty] = useState([]);
 
   useEffect(()=>{
     const initMenu = async ()=>{
@@ -21,8 +22,8 @@ function App() {
   }, [activated]);
 
   useEffect(()=>{
-    console.log('changed! : ', menu);
-  }, [menu]);
+    console.log(menuQty);
+  }, [menuQty]);
 
   return (
     <div className="App">
@@ -37,6 +38,22 @@ function App() {
       />
       <Menu 
         menuData={menu}
+        onSelectMenu={(id, qty)=>{
+          setMenuQty((prevItems) => {
+            // 기존에 동일 id가 있으면 덮어쓰기, 없으면 새로 추가
+            const exists = prevItems.find(item => item.id === id);
+            if (exists) {
+              if(qty === 0){
+                return prevItems.filter(item => item.id !== id);
+              }
+              return prevItems.map(item =>
+                item.id === id ? { ...item, qty } : item
+              );
+            } else {
+              return [...prevItems, { id, qty }];
+            }
+          });
+        }}
       />
     </div>
   );
