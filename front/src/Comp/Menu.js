@@ -1,4 +1,5 @@
 import React from 'react'
+import QtyBtn from './QtyBtn'
 
 const Menu = (props) => {
     let menuList
@@ -10,6 +11,10 @@ const Menu = (props) => {
                 return(
                     <li key={data.id}>
                         {data.name}
+                        <QtyBtn 
+                            menuId={data.id}
+                            onSelectMenu={props.onSelectMenu}
+                        />
                     </li>
                 )
             }
@@ -23,6 +28,10 @@ const Menu = (props) => {
                         <span>{data.price}</span>
                     </div>
                     <img src={data.image}></img>
+                    <QtyBtn 
+                        menuId={data.id}
+                        onSelectMenu={props.onSelectMenu}
+                    />
                 </li>
             )
         })
