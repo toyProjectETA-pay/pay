@@ -1,0 +1,115 @@
+{
+    "categories":[
+        {
+            "id": "main",
+            "items": [
+                {
+                    "id" : 11,
+                    "name": "몽블랑참깨라면",
+                    "desc": "누나랑 몽블랑에서 라면 먹고 파노라마 갈래?",
+                    "image": "/images/sample92.png",
+                    "price": 20000
+                },
+                {
+                    "id" : 12,
+                    "name": "몽블랑참깨라면",
+                    "desc": "누나랑 몽블랑에서 라면 먹고 파노라마 갈래?",
+                    "image": "/images/sample92.png",
+                    "price": 20000
+                },
+                {
+                    "id" : 13,
+                    "name": "몽블랑참깨라면",
+                    "desc": "누나랑 몽블랑에서 라면 먹고 파노라마 갈래?",
+                    "image": "/images/sample92.png",
+                    "price": 20000
+                }
+            ]
+        },
+        {
+            "id": "side",
+            "items": [
+                {
+                    "id" : 21,
+                    "name": "와플, 타이어보다 싸다!",
+                    "desc": "이거 먹고 호크 가면 카빙 일짱 먹음",
+                    "image": "/images/sample92.png",
+                    "price": 8000
+                },
+                {
+                    "id" : 22,
+                    "name": "와플, 타이어보다 싸다!",
+                    "desc": "이거 먹고 호크 가면 카빙 일짱 먹음",
+                    "image": "/images/sample92.png",
+                    "price": 8000
+                },
+                {
+                    "id" : 23,
+                    "name": "와플, 타이어보다 싸다!",
+                    "desc": "이거 먹고 호크 가면 카빙 일짱 먹음",
+                    "image": "/images/sample92.png",
+                    "price": 8000
+                }
+            ]
+        },
+        {
+            "id": "beverage",
+            "items": [
+                {
+                    "id" : 31,
+                    "name": "코카콜라",
+                    "desc": "근-본",
+                    "image": "/images/sample92.png",
+                    "price": 5000
+                },
+                {
+                    "id" : 32,
+                    "name": "역시 사이다는",
+                    "desc": "칠성 사이다",
+                    "image": "/images/sample92.png",
+                    "price": 5000
+                },
+                {
+                    "id" : 33,
+                    "name": "다이어트 중이에요",
+                    "desc": "제로콜라",
+                    "image": "/images/sample92.png",
+                    "price": 5000
+                }
+            ]
+        },
+        {
+            "id": "etc",
+            "items": [
+                {
+                    "id" : 41,
+                    "name": "숟가락"
+                },
+                {
+                    "id" : 42,
+                    "name": "젓가락"
+                },
+                {
+                    "id" : 43,
+                    "name": "앞접시"
+                },
+                {
+                    "id" : 44,
+                    "name": "물"
+                },
+                {
+                    "id" : 45,
+                    "name": "물컵"
+                },
+                {
+                    "id" : 46,
+                    "name": "휴지"
+                },
+                {
+                    "id" : 47,
+                    "name": "직원호출"
+                }
+            ]
+        }
+    ]
+}
