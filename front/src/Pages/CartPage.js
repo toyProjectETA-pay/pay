@@ -1,8 +1,14 @@
 import React from 'react'
+import Nav from '../Comp/Nav'
 
-const CartPage = () => {
+const CartPage = (props) => {
+  props.navUsedAt('cart');
   return (
-    <div>CartPage</div>
+    <>
+      <Nav 
+        navState={props.navState}
+      />
+    </>
   )
 }
 

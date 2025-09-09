@@ -6,11 +6,13 @@ import { useNavigate } from 'react-router-dom'
 
 const MenuPage = (props) => {
     const navigate = useNavigate();
+    props.navUsedAt('menu');
     return (
         <>
             <Nav 
                 currentMenu={props.currentMenu}
                 onChangeMenu={props.onChangeMenu}
+                navState={props.navState}
             />
             <Menu 
                 menuData={props.menuData}
@@ -19,7 +21,7 @@ const MenuPage = (props) => {
             />
             <OrderBtn
                 currentState={props.currentState}
-                onClick={()=> navigate('./cart')}
+                onClick={()=> navigate('/aehanmute/cart/id')}
             />
         </>
     )

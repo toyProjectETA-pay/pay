@@ -45,8 +45,11 @@ function App() {
     });
   };
 
+  const [page, setPage] = useState('menu');
+
   return (
-    //id 부분에 테이블번호 들어갈 것
+    //id 부분에 테이블번호 들어갈 것 파라미터로 넣으면 좋을 듯 ?table=1 식으로.
+    //url 확정은 아니니 참고만 해주시고, 나중에 파라미터들은 암호화합싀다.
     <Router>
       <header>
         쥬쥬쥬쥬점
@@ -59,13 +62,20 @@ function App() {
             onChangeMenu={(key)=>{
               setActivated(key);
             }}
+            navUsedAt={(page)=>{ setPage(page); }}
+            navState={page}
             menuData={menu}
             menuQty={menuQty}
             onSelectMenu={onSelectMenu}
             currentState={menuQty}
           />
         } />
-        <Route path='/aehanmute/id/cart' element={<CartPage />} />
+        <Route path='/aehanmute/cart/id' element={
+          <CartPage 
+            navUsedAt={(page)=>{ setPage(page); }}
+            navState={page}
+          />
+        } />
       </Routes>
     </Router>
   );
