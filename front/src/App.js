@@ -52,13 +52,15 @@ function App() {
   return (
     //id 부분에 테이블번호 들어갈 것 파라미터로 넣으면 좋을 듯 ?table=1 식으로.
     //url 확정은 아니니 참고만 해주시고, 나중에 파라미터들은 암호화합싀다.
+
+    //오 이거 안 읽고 그냥 한 건데 통햇네요.. 후후 후 후 후.. 불면은..구멍이뚫리는..
     <Router>
       <header>
         쥬쥬쥬쥬점
       </header>
       <Routes>
         <Route path='/' element={<Navigate to={'/aehanmute/id'} />} />
-        <Route path='/aehanmute/id' element={
+        <Route path='/aehanmute/order' element={
           <MenuPage 
             currentMenu={activated}
             onChangeMenu={(key)=>{
@@ -71,7 +73,7 @@ function App() {
             onSelectMenu={onSelectMenu}
           />
         } />
-        <Route path='/aehanmute/cart/id' element={
+        <Route path='/aehanmute/cart/' element={
           <CartPage 
             navUsedAt={(page)=>{ setPage(page); }}
             navState={page}

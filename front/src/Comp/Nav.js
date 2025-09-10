@@ -1,9 +1,14 @@
 import React from 'react'
 import '../styles/nav.css'
+import { useSearchParams } from 'react-router-dom'
+
 
 const Nav = (props) => {
     let contents;
-    let table_num = 1;  //dummy
+
+    const [searchParams] = useSearchParams(); // 배열 구조분해라네 
+    const table = searchParams.get("table");
+
     if(props.navState === 'menu'){
         contents = (
             <>
@@ -44,7 +49,7 @@ const Nav = (props) => {
     }
     else if(props.navState === 'cart'){
         contents = (
-            <span>{table_num}번 테이블</span>
+            <span>{table}번 테이블</span>
         )
     }
 
