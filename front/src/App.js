@@ -9,6 +9,7 @@ function App() {
   const [activated, setActivated] = useState('main');
   const [menu, setMenu] = useState(null);
   const [menuQty, setMenuQty] = useState([]);
+  const [receipt, setReceipt] = useState([]);
 
   /*menu.json 불러오는 비동기함수, 첫 렌더링에만 실행 */
   useEffect(()=>{
@@ -30,9 +31,10 @@ function App() {
   }, [menuQty]);
 
   /*메뉴 id와 수량을 매개변수로 받음. 
-    1. 이전에 수량 변화가 있었던 메뉴면 기존 인덱스에 qty 새 값 덮어씌움
-    2. 이전에 수량 변화가 없었던 메뉴면 새로 인덱스 생성
-    3. 수량을 0으로 만들면 해당 id 가진 인덱스 삭제 */
+    1. 수량을 0으로 만들면 해당 id 가진 인덱스 삭제
+    2. 이전에 수량 변화가 있었던 메뉴면 기존 인덱스에 qty 새 값 덮어씌움
+    3. 이전에 수량 변화가 없었던 메뉴면 새로 인덱스 생성
+     */
   const onSelectMenu = (id, qty) => {
     setMenuQty(prev => {
       if (qty === 0) return prev.filter(item => item.id !== id);
@@ -67,13 +69,16 @@ function App() {
             menuData={menu}
             menuQty={menuQty}
             onSelectMenu={onSelectMenu}
-            currentState={menuQty}
           />
         } />
         <Route path='/aehanmute/cart/id' element={
           <CartPage 
             navUsedAt={(page)=>{ setPage(page); }}
             navState={page}
+            menuQty={menuQty}
+            onSelectMenu={onSelectMenu}
+            receipt={receipt}
+            onDecideMenu={(receipt)=>{ setReceipt(receipt); }}
           />
         } />
       </Routes>

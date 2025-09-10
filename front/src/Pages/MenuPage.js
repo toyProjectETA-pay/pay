@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Nav from '../Comp/Nav'
 import Menu from '../Comp/Menu'
 import OrderBtn from '../Comp/OrderBtn'
@@ -6,7 +6,10 @@ import { useNavigate } from 'react-router-dom'
 
 const MenuPage = (props) => {
     const navigate = useNavigate();
-    props.navUsedAt('menu');
+    useEffect(()=>{
+        props.navUsedAt('menu');
+        console.log('nav changed to menu'); //working well
+    }, []);
     return (
         <>
             <Nav 
@@ -20,7 +23,7 @@ const MenuPage = (props) => {
                 onSelectMenu={props.onSelectMenu}
             />
             <OrderBtn
-                currentState={props.currentState}
+                currentState={props.menuQty}
                 onClick={()=> navigate('/aehanmute/cart/id')}
             />
         </>
