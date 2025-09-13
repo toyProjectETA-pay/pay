@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import Nav from '../Comp/Nav'
 import Menu from '../Comp/Menu'
 import OrderBtn from '../Comp/OrderBtn'
+import Header from '../Comp/Header'
 
 const MenuPage = (props) => {
     
@@ -12,9 +13,9 @@ const MenuPage = (props) => {
 
     return (
         <>
-            <header>
-                쥬쥬쥬쥬점
-            </header>
+            <Header
+                goToCart={props.goToCart}
+            />
             <Nav 
                 currentMenu={props.currentMenu}
                 onChangeMenu={props.onChangeMenu}
