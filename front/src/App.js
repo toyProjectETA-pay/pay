@@ -6,6 +6,7 @@ import MenuPage from './Pages/MenuPage.js';
 import CartPage from './Pages/CartPage.js';
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import Result from './Pages/Result.js';
+import HistoryPage from './Pages/HistoryPage.js';
 
 function App() {
   const [activated, setActivated] = useState('main');
@@ -22,6 +23,9 @@ function App() {
   const goToCart = () => {
       navigate(`/aehanmute/cart?table=${table}`);
   };
+  const goToHistory = () =>{
+      navigate(`/aehanmute/history?table=${table}`);
+  }
 
   /*menu.json 불러오는 비동기함수, 첫 렌더링에만 실행 */
   useEffect(()=>{
@@ -83,10 +87,13 @@ function App() {
             menuQty={menuQty}
             onSelectMenu={onSelectMenu}
             goToCart={goToCart}
+            goToHistory={goToHistory}
           />
         } />
         <Route path='/aehanmute/cart/' element={
           <CartPage 
+            goToCart={goToCart}
+            goToHistory={goToHistory}
             navUsedAt={(page)=>{ setPage(page); }}
             navState={page}
             menuQty={menuQty}
@@ -100,6 +107,14 @@ function App() {
         } />
         <Route path='/aehanmute/orderresult' element={
           <Result />
+        } />
+        <Route path='/aehanmute/history/' element={
+          <HistoryPage
+            goToCart={goToCart}
+            goToHistory={goToHistory}
+            navUsedAt={(page)=>{ setPage(page); }}
+            navState={page}
+          />
         } />
       </Routes>
     </>

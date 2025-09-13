@@ -4,6 +4,7 @@ import { getAllMenuList, loadMenu } from '../Handler/menuLoader';
 import List from '../Comp/List';
 import OrderBtn from '../Comp/OrderBtn';
 import axios from 'axios';
+import Header from '../Comp/Header';
 
 
 /**props: nav상태관리, menuQty(id, qty만 들어있음), 
@@ -83,9 +84,9 @@ const CartPage = (props) => {
 
   return (
     <>
-      <header>
-        쥬쥬쥬쥬점
-      </header>
+      <Header
+        goToCart={props.goToCart}
+      />
       <Nav 
         navState={props.navState}
       />

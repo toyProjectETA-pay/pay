@@ -48,7 +48,7 @@ const Nav = (props) => {
             </>
         )
     }
-    else if(props.navState === 'cart'){
+    else if(props.navState === 'cart' || props.navState === 'history'){
         contents = (
             <span>{table}번 테이블</span>
         )
