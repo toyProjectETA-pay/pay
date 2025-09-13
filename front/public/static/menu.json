@@ -5,24 +5,24 @@
             "items": [
                 {
                     "id" : 11,
-                    "name": "몽블랑참깨라면",
-                    "desc": "누나랑 몽블랑에서 라면 먹고 파노라마 갈래?",
+                    "name": "불닭염통",
+                    "desc": "Hot함",
                     "image": "/static/images/sample92.png",
-                    "price": 20000
+                    "price": 17900
                 },
                 {
                     "id" : 12,
-                    "name": "몽블랑참깨라면",
-                    "desc": "누나랑 몽블랑에서 라면 먹고 파노라마 갈래?",
+                    "name": "오뎅탕",
+                    "desc": "Standard함",
                     "image": "/static/images/sample92.png",
-                    "price": 20000
+                    "price": 14900
                 },
                 {
                     "id" : 13,
-                    "name": "몽블랑참깨라면",
-                    "desc": "누나랑 몽블랑에서 라면 먹고 파노라마 갈래?",
+                    "name": "두부김치",
+                    "desc": "Go-to임",
                     "image": "/static/images/sample92.png",
-                    "price": 20000
+                    "price": 14900
                 }
             ]
         },
@@ -31,24 +31,24 @@
             "items": [
                 {
                     "id" : 21,
-                    "name": "와플, 타이어보다 싸다!",
-                    "desc": "이거 먹고 호크 가면 카빙 일짱 먹음",
+                    "name": "과일화채",
+                    "desc": "Sweet함",
                     "image": "/static/images/sample92.png",
-                    "price": 8000
+                    "price": 10900
                 },
                 {
                     "id" : 22,
-                    "name": "와플, 타이어보다 싸다!",
-                    "desc": "이거 먹고 호크 가면 카빙 일짱 먹음",
+                    "name": "물만두",
+                    "desc": "Savoury함",
                     "image": "/static/images/sample92.png",
-                    "price": 8000
+                    "price": 10900
                 },
                 {
                     "id" : 23,
-                    "name": "와플, 타이어보다 싸다!",
-                    "desc": "이거 먹고 호크 가면 카빙 일짱 먹음",
+                    "name": "계란말이",
+                    "desc": "Fluffy함",
                     "image": "/static/images/sample92.png",
-                    "price": 8000
+                    "price": 9900
                 }
             ]
         },
@@ -60,21 +60,28 @@
                     "name": "코카콜라",
                     "desc": "근-본",
                     "image": "/static/images/sample92.png",
-                    "price": 5000
+                    "price": 3000
                 },
                 {
                     "id" : 32,
                     "name": "역시 사이다는",
                     "desc": "칠성 사이다",
                     "image": "/static/images/sample92.png",
-                    "price": 5000
+                    "price": 3000
                 },
                 {
                     "id" : 33,
                     "name": "다이어트 중이에요",
                     "desc": "제로콜라",
                     "image": "/static/images/sample92.png",
-                    "price": 5000
+                    "price": 3000
+                },
+                {
+                    "id" : 34,
+                    "name": "물",
+                    "desc": "500ml에요",
+                    "image": "/static/images/sample92.png",
+                    "price": 1500
                 }
             ]
         },
@@ -107,6 +114,10 @@
                 },
                 {
                     "id" : 47,
+                    "name": "합석원해요"
+                },
+                {
+                    "id" : 48,
                     "name": "직원호출"
                 }
             ]
