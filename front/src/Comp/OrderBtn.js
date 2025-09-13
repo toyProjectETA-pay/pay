@@ -1,16 +1,14 @@
 import React from 'react'
 import '../styles/orderBtn.css'
-import { useNavigate } from 'react-router-dom';
 
 const OrderBtn = (props) => {
   let btn;
-  const navigate = useNavigate();
   const toBankUrl = `http://aq.gy/f/CTzbd/${props.total}`
 
   const handleClick = (e) =>{
     e.preventDefault();
     window.open(toBankUrl, "blank");
-    navigate("/aehanmute/orderresult");
+    props.goToResult();
   }
 
   if(props.navState === 'cart'){
@@ -20,7 +18,7 @@ const OrderBtn = (props) => {
           className={'enable'}
           onClick={()=>{
             props.onPost();
-            navigate("/aehanmute/orderresult");
+            props.goToResult();
           }}
         >
           주문하기
