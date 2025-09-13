@@ -3,7 +3,6 @@ import Nav from '../Comp/Nav'
 import Menu from '../Comp/Menu'
 import OrderBtn from '../Comp/OrderBtn'
 import Header from '../Comp/Header'
-import '../styles/menuPage.css'
 
 const MenuPage = (props) => {
     

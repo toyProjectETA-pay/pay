@@ -4,11 +4,14 @@
     display : flex;
     flex-direction : vertical;
     justify-content : space-evenly;
+    border-bottom: solid 0.5px #eaeaea;
+    position: relative;
 }
 .nav > div{
     width : 20%;
     text-align : center;
     line-height : 5vh;
+    font-size: 20px;
 }
 .inactive{
     opacity : 60%;
@@ -16,4 +19,10 @@
 .active{
     color : #076FD4;
     border-bottom : solid 2px #076FD4;
+}
+.nav span{
+    position: absolute;
+    left: 6vw;
+    font-size: 20px;
+    font-weight: bold;
 }

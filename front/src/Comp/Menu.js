@@ -1,5 +1,6 @@
 import React from 'react'
 import QtyBtn from './QtyBtn'
+import '../styles/menu.css'
 
 /**props : menuData(parsing된 메뉴), menyQty(메뉴고유아이디, 수량), onSelectMenu(수량 업데이트 함수) */
 const Menu = (props) => {
@@ -28,19 +29,23 @@ const Menu = (props) => {
             }
             return(
                 <li key={data.id}>
-                    <div>
-                        <div>
-                            <span>{data.name}</span>
-                            <span>{data.desc}</span>
+                    <div className='contents-box'>
+                        <div className='text-area'>
+                            <div>
+                                <span>{data.name}</span>
+                                <span>{data.desc}</span>
+                            </div>
+                            <span>{data.price.toLocaleString()}원</span>
                         </div>
-                        <span>{data.price}</span>
+                        <div className='img-area'>
+                            <img src={data.image}></img>
+                            <QtyBtn 
+                                menuId={data.id}
+                                qty={getQty(data.id)}
+                                onSelectMenu={props.onSelectMenu}
+                            />
+                        </div>
                     </div>
-                    <img src={data.image}></img>
-                    <QtyBtn 
-                        menuId={data.id}
-                        qty={getQty(data.id)}
-                        onSelectMenu={props.onSelectMenu}
-                    />
                 </li>
             )
         })
@@ -48,9 +53,11 @@ const Menu = (props) => {
     
 
     return (
-        <ul>
-            {menuList}
-        </ul>
+        <div className='menu-list'>
+            <ul>
+                {menuList}
+            </ul>
+        </div>
     )
 }
 

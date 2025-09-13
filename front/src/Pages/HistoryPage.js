@@ -28,6 +28,7 @@ const HistoryPage = (props) => {
                 .filter(order => order.items.length > 0);
 
             setOrders(filtered);
+            console.log('his)서버응답 : ', res.data)
             console.log('orders : ', orders);
             } catch (err) {
             console.error(err);
