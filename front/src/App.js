@@ -4,12 +4,23 @@ import './App.css';
 import { loadMenu, getActivatedMenuList } from './Handler/menuLoader.js';
 import MenuPage from './Pages/MenuPage.js';
 import CartPage from './Pages/CartPage.js';
+import { useNavigate, useSearchParams } from 'react-router-dom'
 
 function App() {
   const [activated, setActivated] = useState('main');
   const [menu, setMenu] = useState(null);
   const [menuQty, setMenuQty] = useState([]);
   const [receipt, setReceipt] = useState([]);
+  const [total, setTotal] = useState(0);
+  // 하겅추가  url로부터 table number 받기 
+  // 화면에 테이블 번호 출력하고 싶다면 table 변수를 쓰시오~~!! 
+  const [searchParams] = useSearchParams(); // 배열 구조분해라네 
+  const table = searchParams.get("table");  
+  const navigate = useNavigate();
+
+  const goToCart = () => {
+      navigate(`/aehanmute/cart?table=${table}`);
+  };
 
   /*menu.json 불러오는 비동기함수, 첫 렌더링에만 실행 */
   useEffect(()=>{
@@ -28,6 +39,7 @@ function App() {
   /*내사랑콘솔로그 */
   useEffect(()=>{
     console.log(menuQty);
+    console.log(total);
   }, [menuQty]);
 
   /*메뉴 id와 수량을 매개변수로 받음. 
@@ -49,12 +61,13 @@ function App() {
 
   const [page, setPage] = useState('menu');
 
+
   return (
     //id 부분에 테이블번호 들어갈 것 파라미터로 넣으면 좋을 듯 ?table=1 식으로.
     //url 확정은 아니니 참고만 해주시고, 나중에 파라미터들은 암호화합싀다.
 
     //오 이거 안 읽고 그냥 한 건데 통햇네요.. 후후 후 후 후.. 불면은..구멍이뚫리는..
-    <Router>
+    <>
       <header>
         쥬쥬쥬쥬점
       </header>
@@ -71,6 +84,7 @@ function App() {
             menuData={menu}
             menuQty={menuQty}
             onSelectMenu={onSelectMenu}
+            goToCart={goToCart}
           />
         } />
         <Route path='/aehanmute/cart/' element={
@@ -81,10 +95,12 @@ function App() {
             onSelectMenu={onSelectMenu}
             receipt={receipt}
             onDecideMenu={(receipt)=>{ setReceipt(receipt); }}
+            total={total}
+            setTotal={(receipt)=>{ setTotal(receipt) }}
           />
         } />
       </Routes>
-    </Router>
+    </>
   );
 }
 

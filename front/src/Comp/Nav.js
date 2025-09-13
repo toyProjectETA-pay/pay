@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import '../styles/nav.css'
 import { useSearchParams } from 'react-router-dom'
 
@@ -8,6 +8,7 @@ const Nav = (props) => {
 
     const [searchParams] = useSearchParams(); // 배열 구조분해라네 
     const table = searchParams.get("table");
+
 
     if(props.navState === 'menu'){
         contents = (

@@ -23,6 +23,9 @@ const List = (props) => {
           </div>
         ))
       }
+      <div>
+        총 {props.total}원
+      </div>
     </>
   )
 }
