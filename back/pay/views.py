@@ -5,8 +5,6 @@ from .models import Order
 from .serializers import OrderSerializer
 
 
-
-# DRF API ViewSet
-class OrderViewSet(generics.ListCreateAPIView): # api 
+class OrderViewSet(generics.ListCreateAPIView): 
     queryset = Order.objects.all()
     serializer_class = OrderSerializer
