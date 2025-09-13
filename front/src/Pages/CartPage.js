@@ -42,8 +42,14 @@ const CartPage = (props) => {
     const calculate = (receipt)=>{
       let total = 0;
       for(let i = 0; i<receipt.length; i++){
-        total += receipt[i].price * receipt[i].qty
-        console.log('i :', i, '\nprice : ', receipt[i].price, '\nqty : ', receipt[i].qty, '\ntotal : ', total)
+        if(receipt[i].price != 0){
+          total += receipt[i].price * receipt[i].qty
+          console.log('i :', i, '\nprice : ', receipt[i].price, '\nqty : ', receipt[i].qty, '\ntotal : ', total)
+        }
+        else{
+          console.log('i :', i, '\nqty : ', receipt[i].qty, '\ntotal : ', total)
+          continue;
+        }
       }
       props.setTotal(total);
       console.log(total);
@@ -86,6 +92,7 @@ const CartPage = (props) => {
     <>
       <Header
         goToCart={props.goToCart}
+        goToHistory={props.goToHistory}
       />
       <Nav 
         navState={props.navState}
@@ -106,6 +113,7 @@ const CartPage = (props) => {
       }}
       navState = {props.navState}
       total = {props.total}
+      goToResult={props.goToResult}
       />
     </>
     
