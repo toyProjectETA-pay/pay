@@ -92,6 +92,7 @@ const CartPage = (props) => {
     <>
       <Header
         goToCart={props.goToCart}
+        goToHistory={props.goToHistory}
       />
       <Nav 
         navState={props.navState}
@@ -112,6 +113,7 @@ const CartPage = (props) => {
       }}
       navState = {props.navState}
       total = {props.total}
+      goToResult={props.goToResult}
       />
     </>
     

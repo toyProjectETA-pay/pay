@@ -26,6 +26,12 @@ function App() {
   const goToHistory = () =>{
       navigate(`/aehanmute/history?table=${table}`);
   }
+  const goToResult = () =>{
+      navigate(`/aehanmute/orderresult?table=${table}`);
+  }
+  const goToMenu = () =>{
+      navigate(`/aehanmute/order?table=${table}`);
+  }
 
   /*menu.json 불러오는 비동기함수, 첫 렌더링에만 실행 */
   useEffect(()=>{
@@ -94,6 +100,7 @@ function App() {
           <CartPage 
             goToCart={goToCart}
             goToHistory={goToHistory}
+            goToResult={goToResult}
             navUsedAt={(page)=>{ setPage(page); }}
             navState={page}
             menuQty={menuQty}
@@ -105,8 +112,10 @@ function App() {
             setTotal={(receipt)=>{ setTotal(receipt) }}
           />
         } />
-        <Route path='/aehanmute/orderresult' element={
-          <Result />
+        <Route path='/aehanmute/orderresult/' element={
+          <Result 
+            goToMenu={goToMenu}
+          />
         } />
         <Route path='/aehanmute/history/' element={
           <HistoryPage
