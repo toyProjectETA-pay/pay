@@ -14,19 +14,34 @@ const OrderBtn = (props) => {
   }
 
   if(props.navState === 'cart'){
-    btn = (
-      <div
-        className={props.currentState.length === 0 ? 'disable' : 'enable'}
-        onClick={props.onPost}
-      >
-        <a href={toBankUrl} onClick={handleClick}>{props.total}원 결제하기</a>
-      </div>
-    )
+    if(props.total === 0){
+      btn = (
+        <div
+          className={'enable'}
+          onClick={()=>{
+            props.onPost();
+            navigate("/aehanmute/orderresult");
+          }}
+        >
+          주문하기
+        </div>
+      )
+    }
+    else{
+      btn = (
+        <div
+          className={'enable'}
+          onClick={props.onPost}
+        >
+          <a href={toBankUrl} onClick={handleClick}>{props.total}원 결제하기</a>
+        </div>
+      )
+    }
   }
   else{
     btn = <div
         className={props.currentState.length === 0 ? 'disable' : 'enable'}
-        onClick={props.onClick}
+        onClick={props.currentState.length === 0 ? undefined : props.onClick}
     >주문하기</div>
   }
   return (

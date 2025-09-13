@@ -7,7 +7,7 @@ const HistoryPage = (props) => {
         props.navUsedAt('history');
     }, []);
 
-    
+    //is_done이 false 이고, is_paid가 true인 값 보여주기
 
     return (
         <>
