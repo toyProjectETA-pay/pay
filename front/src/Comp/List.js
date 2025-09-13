@@ -19,7 +19,7 @@ const List = (props) => {
               qty={getQty(item.id)}
               onSelectMenu={props.onSelectMenu}
             />
-            <span>{item.price === undefined ? '' : `${item.price * item.qty}원`}</span>
+            <span>{item.price === 0 ? '' : `${item.price * item.qty}원`}</span>
           </div>
         ))
       }
