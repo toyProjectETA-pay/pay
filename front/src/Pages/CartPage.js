@@ -56,7 +56,7 @@ const CartPage = (props) => {
   // }, [props.menuQty]);
 
   //서버로 post 요청
-  const url ="http://127.0.0.1:8000/cart/getTotal";
+  const url ="http://127.0.0.1:8000/api/orders/";
   const sendDjango = async (receipt, total)=> {
     const resData = {
       grand_total: total,
