@@ -2,11 +2,12 @@ import React from 'react'
 import history from '../images/history.png'
 import cart from '../images/cart.png'
 import { useNavigate } from 'react-router-dom'
+import '../styles/header.css'
 
 const Header = (props) => {
   const navigate = useNavigate();
   return (
-    <>
+    <div className='header'>
       <header>쥬쥬쥬쥬점</header>
       <div>
         <img 
@@ -20,7 +21,7 @@ const Header = (props) => {
           onClick={() => props.goToCart()}
         />
       </div>
-    </>
+    </div>
   )
 }
 
