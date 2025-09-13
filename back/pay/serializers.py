@@ -1,16 +1,17 @@
 from rest_framework import serializers
-from .models import OrderItem, Order
+from .models import Order, OrderItem, Table, Menu
 
-''' 
-시리얼라이저: 파이썬 객체와 json 변환기 (dto 역할)
-react에서 받은 json을 파이썬 객체로 변환하고 검증 후에 db에 저장
-'''
+
+class MenuSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Menu
+        fields = ['id', 'name', 'price', 'sold_out']
+
+
 class OrderItemSerializer(serializers.ModelSerializer):
-    class Meta: 
+    class Meta:
         model = OrderItem
-        fields = ['id', 'name', 'price', 'quantity', 'total']
-    
-
+        fields = ['id', 'menu', 'quantity']
 class OrderSerializer(serializers.ModelSerializer):
     items = OrderItemSerializer(many=True)
 

@@ -18,7 +18,11 @@ function App() {
   // 화면에 테이블 번호 출력하고 싶다면 table 변수를 쓰시오~~!! 
   const [searchParams] = useSearchParams(); // 배열 구조분해라네 
   const table = searchParams.get("table");  
+
+
+
   const navigate = useNavigate();
+
 
   const goToCart = () => {
       navigate(`/aehanmute/cart?table=${table}`);
@@ -98,6 +102,7 @@ function App() {
         } />
         <Route path='/aehanmute/cart/' element={
           <CartPage 
+            table={table}
             goToCart={goToCart}
             goToHistory={goToHistory}
             goToResult={goToResult}
