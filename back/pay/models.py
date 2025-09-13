@@ -7,7 +7,8 @@ class Order(models.Model): # 테이블 Order 정의
     created_at = models.DateTimeField(auto_now_add=True) # 주문 생성 시간
     grand_total = models.IntegerField() # 주점 주문 총액 
     is_paid = models.BooleanField(default=False) # 결제 여부 필드 (default: 결제 안 됨) => 수동~~!! 
-
+    def __str__(self):
+        return self.title
 
     
 class OrderItem(models.Model): # 테이블 OrderItem 정의 (주문에 속하는 상품 테이블, 하나의 주문에 여러 상품)
