@@ -1,4 +1,6 @@
-from django.http import HttpResponse
+from django.urls import path
+from . import views 
 
-def index(request):
-    return HttpResponse("Pay App Index Page")
+urlpatterns = [
+    path('', views.Order.as_view()),
+]

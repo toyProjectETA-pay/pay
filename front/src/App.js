@@ -59,7 +59,7 @@ function App() {
         쥬쥬쥬쥬점
       </header>
       <Routes>
-        <Route path='/' element={<Navigate to={'/aehanmute/id'} />} />
+        <Route path='/' element={<Navigate to={'/aehanmute/order'} />} />
         <Route path='/aehanmute/order' element={
           <MenuPage 
             currentMenu={activated}
