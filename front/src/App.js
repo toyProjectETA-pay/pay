@@ -5,6 +5,7 @@ import { loadMenu, getActivatedMenuList } from './Handler/menuLoader.js';
 import MenuPage from './Pages/MenuPage.js';
 import CartPage from './Pages/CartPage.js';
 import { useNavigate, useSearchParams } from 'react-router-dom'
+import Result from './Pages/Result.js';
 
 function App() {
   const [activated, setActivated] = useState('main');
@@ -68,9 +69,6 @@ function App() {
 
     //오 이거 안 읽고 그냥 한 건데 통햇네요.. 후후 후 후 후.. 불면은..구멍이뚫리는..
     <>
-      <header>
-        쥬쥬쥬쥬점
-      </header>
       <Routes>
         <Route path='/' element={<Navigate to={'/aehanmute/order'} />} />
         <Route path='/aehanmute/order' element={
@@ -93,11 +91,15 @@ function App() {
             navState={page}
             menuQty={menuQty}
             onSelectMenu={onSelectMenu}
+            setMenuQty={()=>{ setMenuQty([]) }}
             receipt={receipt}
             onDecideMenu={(receipt)=>{ setReceipt(receipt); }}
             total={total}
             setTotal={(receipt)=>{ setTotal(receipt) }}
           />
+        } />
+        <Route path='/aehanmute/orderresult' element={
+          <Result />
         } />
       </Routes>
     </>

@@ -12,6 +12,9 @@ const MenuPage = (props) => {
 
     return (
         <>
+            <header>
+                쥬쥬쥬쥬점
+            </header>
             <Nav 
                 currentMenu={props.currentMenu}
                 onChangeMenu={props.onChangeMenu}

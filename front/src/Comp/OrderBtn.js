@@ -1,14 +1,26 @@
 import React from 'react'
 import '../styles/orderBtn.css'
+import { useNavigate } from 'react-router-dom';
 
 const OrderBtn = (props) => {
   let btn;
+  const navigate = useNavigate();
+  const toBankUrl = `http://aq.gy/f/CTzbd/${props.total}`
+
+  const handleClick = (e) =>{
+    e.preventDefault();
+    window.open(toBankUrl, "blank");
+    navigate("/aehanmute/orderresult");
+  }
+
   if(props.navState === 'cart'){
     btn = (
       <div
         className={props.currentState.length === 0 ? 'disable' : 'enable'}
         onClick={props.onPost}
-      >{props.total}원 결제하기</div>
+      >
+        <a href={toBankUrl} onClick={handleClick}>{props.total}원 결제하기</a>
+      </div>
     )
   }
   else{
