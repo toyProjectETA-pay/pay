@@ -83,6 +83,9 @@ const CartPage = (props) => {
 
   return (
     <>
+      <header>
+        쥬쥬쥬쥬점
+      </header>
       <Nav 
         navState={props.navState}
       />
@@ -94,7 +97,12 @@ const CartPage = (props) => {
       
       <OrderBtn 
       currentState = {props} // 총금액.. 뭐로 해야 하지?
-      onPost = {() => sendDjango(receipt, props.total)}
+      onPost = {() => {
+        sendDjango(receipt, props.total)
+        props.onDecideMenu([])
+        props.setTotal(0)
+        props.setMenuQty([])
+      }}
       navState = {props.navState}
       total = {props.total}
       />

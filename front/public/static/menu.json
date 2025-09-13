@@ -49,6 +49,20 @@
                     "desc": "Fluffy함",
                     "image": "/static/images/sample92.png",
                     "price": 9900
+                },
+                {
+                    "id" : 24,
+                    "name": "짜계치",
+                    "desc": "Fantastic함",
+                    "image": "/static/images/sample92.png",
+                    "price": 8900
+                },
+                {
+                    "id" : 25,
+                    "name": "나쵸",
+                    "desc": "Gorgeous함",
+                    "image": "/static/images/sample92.png",
+                    "price": 7900
                 }
             ]
         },
