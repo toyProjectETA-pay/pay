@@ -26,16 +26,16 @@ const QtyBtn = (props) => {
     }
     else if(active){
         btn = <div className="qty-controls">
-                <div onClick={() => props.onSelectMenu(props.menuId, Math.max(0, props.qty - 1))}>-</div>
+                <div onClick={() => props.onSelectMenu(props.menuName, Math.max(0, props.qty - 1))}>-</div>
                 <span>{props.qty}</span>
-                <div onClick={() => props.onSelectMenu(props.menuId, props.qty + 1)}>+</div>
+                <div onClick={() => props.onSelectMenu(props.menuName, props.qty + 1)}>+</div>
               </div>
     }
     
 
     return (
         <div
-            key={props.menuId}
+            key={props.menuName}
             className={active === false ? 'btn-inactive' : 'btn-active'}
             onClick={(e)=>{
                 setActive(true);                

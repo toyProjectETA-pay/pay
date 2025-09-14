@@ -3,9 +3,9 @@ import QtyBtn from './QtyBtn';
 
 const List = (props) => {
   /**해당 메뉴의 수량을 읽어옴 (수량 변화가 없었다면 0 return) */
-  const getQty = (id) => {
-      const found = props.receipt.find(item => item.id === id);
-      return found ? found.qty : 0;
+  const getQty = (name) => {
+      const found = props.receipt.find(item => item.name === name);
+      return found ? found.quantity : 0;
   };
 
   return (
@@ -15,8 +15,8 @@ const List = (props) => {
           <div key={item.id}>
             <span>{item.name}</span>
             <QtyBtn 
-              menuId={item.id}
-              qty={getQty(item.id)}
+              menuName={item.name}
+              qty={getQty(item.name)}
               onSelectMenu={props.onSelectMenu}
             />
             <span>{item.price === 0 ? '' : `${item.price * item.quantity}원`}</span>

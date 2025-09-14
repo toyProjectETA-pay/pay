@@ -13,8 +13,23 @@
 }
 .menu-list li{
     /* border: solid 1px #f00; */
+    margin-top: 2%;
     height: 16vh;
+    max-height: 150px;
     position: relative;
+}
+.etc-area{
+    width: 60%;
+    margin-left: 4vw;
+    display: flex;
+    flex-direction: row;
+    gap: 6vw;
+    align-items: center;
+    
+}
+.etc-area span{
+    font-size: 16px;
+    display: inline-block;
 }
 .contents-box{
     margin: 0 auto;
@@ -40,23 +55,30 @@
     justify-content: space-around;
 }
 .text-area span:first-of-type{
-    font-size: 18px;
+    font-size: 16px;
     font-weight: bold;
 }
 .text-area > div > span:nth-child(2){
-    font-size: 15px;
+    font-size: 14px;
     color: #4e4e4e;
 }
-.img-area{
+.img-area {
     width: 40%;
+    max-width: 130px;
+    max-height: 130px;
+    height: 130px;            /* div 높이 지정 */
+    display: flex;             /* Flexbox */
+    justify-content: center;   /* 가로 중앙 */
+    align-items: center;       /* 세로 중앙 */
     position: relative;
 }
-.img-area > img{
-    width: 100%;
-    display: block;
+.img-area img {
+    max-width: 85%;           /* 부모 div 너비에 맞춤 */
+    max-height: 85%;          /* 부모 div 높이에 맞춤 */
+    object-fit: contain;       /* 비율 유지하며 맞춤 */
 }
 .img-area > :nth-child(2){
     position: absolute;
-    bottom: 7%;  
-    right: 7%;
+    bottom: 6%;  
+    right: 6%;
 }

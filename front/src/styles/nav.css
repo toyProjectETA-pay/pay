@@ -11,18 +11,18 @@
     width : 20%;
     text-align : center;
     line-height : 5vh;
-    font-size: 20px;
+    font-size: 18px;
 }
 .inactive{
     opacity : 60%;
 }
 .active{
-    color : #076FD4;
-    border-bottom : solid 2px #076FD4;
+    color : #E41F26;
+    border-bottom : solid 2px #E41F26;
 }
 .nav span{
     position: absolute;
     left: 6vw;
-    font-size: 20px;
+    font-size: 18px;
     font-weight: bold;
 }

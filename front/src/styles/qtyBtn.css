@@ -7,12 +7,13 @@
   transition: all 0.5s ease;
   color: white;
   font-weight: bold;
+  z-index: 2;
 }
 
 /* 원 상태 */
 .btn-inactive {
-  width: 40px;
-  height: 40px;
+  width: 35px;
+  height: 35px;
   border-radius: 50%;
   background-color: white;
   box-shadow: 0px 3px 5px rgba(0,0,0,0.25);
@@ -20,14 +21,14 @@
 }
 
 .btn-inactive .qty{
-  width: 40px;
-  height: 40px;
+  width: 35px;
+  height: 35px;
   border-radius: 50%;
-  background-color: #076FD4;
+  background-color: #E41F26;
   box-shadow: 0px 3px 5px rgba(0,0,0,0.25);
   position: relative;
-  font-size: 20px;
-  line-height: 20px;
+  font-size: 18px;
+  line-height: 18px;
 }
 
 /* + 모양 (원 안) */
@@ -41,7 +42,7 @@
 .plus-shape::after {
   content: '';
   position: absolute;
-  background-color: #076FD4;
+  background-color: #E41F26;
   border-radius: 8px; /* 끝 둥글게 */
 }
 
@@ -66,15 +67,17 @@
 /* 직사각형 상태 */
 .btn-active {
   width: 86%;
+  max-width: 113px;
   /* padding: 0 12px; */
-  height: 40px;
+  height: 35px;
   border-radius: 20px;
-  background-color: #076FD4;
+  background-color: #E41F26;
   color: white;
 }
 
 .qty-controls {
   width: 100%;
+  max-width: 115px;
   height: 100%;
   display: flex;
   align-items: center;
@@ -91,6 +94,6 @@
   text-align: center;
 }
 .qty-controls span{
-  font-size: 20px;
-  line-height: 20px;
+  font-size: 18px;
+  line-height: 18px;
 }
