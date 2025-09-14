@@ -7,6 +7,7 @@ import CartPage from './Pages/CartPage.js';
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import Result from './Pages/Result.js';
 import HistoryPage from './Pages/HistoryPage.js';
+import axios from "axios";
 
 function App() {
   const [activated, setActivated] = useState('main');
@@ -57,6 +58,16 @@ function App() {
     console.log(total);
   }, [menuQty]);
 
+  const [menuData, setMenuData] = useState([]);
+  useEffect(()=>{
+        axios.get("http://127.0.0.1:8000/api/menus/")
+        .then(res =>{
+          console.log("App.js-api/menus/ 확인:", res.data);
+          setMenuData(res.data)})
+        .catch(err => console.error(err));
+    }, []);
+
+
   /*메뉴 id와 수량을 매개변수로 받음. 
     1. 수량을 0으로 만들면 해당 id 가진 인덱스 삭제
     2. 이전에 수량 변화가 있었던 메뉴면 기존 인덱스에 qty 새 값 덮어씌움
@@ -65,11 +76,16 @@ function App() {
   const onSelectMenu = (id, qty) => {
     setMenuQty(prev => {
       if (qty === 0) return prev.filter(item => item.id !== id);
+
+      // menuData에서 현재 메뉴 찾아옴
+      const menu = menuData.find(m => m.id === id);
+
       const exists = prev.find(item => item.id === id);
       if (exists) {
-        return prev.map(item => item.id === id ? { ...item, qty } : item);
+        return prev.map(item => 
+          item.id === id ? { ...item, qty } : item);
       } else {
-        return [...prev, { id, qty }];
+        return [...prev, { id, qty, name: menu.name, price: menu.price }];
       }
     });
   };
@@ -93,7 +109,7 @@ function App() {
             }}
             navUsedAt={(page)=>{ setPage(page); }}
             navState={page}
-            menuData={menu}
+            menuData={menuData}
             menuQty={menuQty}
             onSelectMenu={onSelectMenu}
             goToCart={goToCart}
@@ -109,6 +125,7 @@ function App() {
             navUsedAt={(page)=>{ setPage(page); }}
             navState={page}
             menuQty={menuQty}
+            menuData={menuData}
             onSelectMenu={onSelectMenu}
             setMenuQty={()=>{ setMenuQty([]) }}
             receipt={receipt}

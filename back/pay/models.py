@@ -12,6 +12,13 @@ class Order(models.Model): # 테이블 Order 정의
 
 # 주점 실제 메뉴 
 class Menu(models.Model):
+    CATEGORY_CHOICES = [
+        ('main', '메인'),
+        ('side', '사이드'),
+        ('beverage', '음료'),
+        ('etc', '기타'),
+    ]
+    category = models.CharField(max_length=20, choices=CATEGORY_CHOICES)
     name = models.CharField(max_length=100) # 메뉴 이름 
     desc = models.CharField(max_length=255, blank=True, null=True)  # 메뉴 설명 (짧게)
     image = models.CharField(max_length=255, blank=True, null=True)
