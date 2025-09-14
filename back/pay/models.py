@@ -8,6 +8,8 @@ class Order(models.Model): # 테이블 Order 정의
     grand_total = models.IntegerField() # 주점 주문 총액 
     is_paid = models.BooleanField(default=False) # 결제 여부 필드 (default: 결제 안 됨) => 수동~~!! 
     is_done = models.BooleanField(default=False) # 주문 처리 완료 여부 
+    is_ready = models.BooleanField(default=False)
+
 
 
 # 주점 실제 메뉴 
