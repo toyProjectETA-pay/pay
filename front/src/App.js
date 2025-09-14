@@ -15,6 +15,7 @@ function App() {
   const [menuQty, setMenuQty] = useState([]);
   const [receipt, setReceipt] = useState([]);
   const [total, setTotal] = useState(0);
+  const [orders, setOrders] = useState([]);
   // 하겅추가  url로부터 table number 받기 
   // 화면에 테이블 번호 출력하고 싶다면 table 변수를 쓰시오~~!! 
   const [searchParams] = useSearchParams(); // 배열 구조분해라네 
@@ -127,6 +128,7 @@ function App() {
             table={table}
             goToCart={goToCart}
             goToHistory={goToHistory}
+            goToMenu={goToMenu}
             goToResult={goToResult}
             navUsedAt={(page)=>{ setPage(page); }}
             navState={page}
@@ -149,8 +151,12 @@ function App() {
           <HistoryPage
             goToCart={goToCart}
             goToHistory={goToHistory}
+            goToMenu={goToMenu}
             navUsedAt={(page)=>{ setPage(page); }}
             navState={page}
+            prevOrders={orders}
+            onUpdateOrders={setOrders}
+            menuData={menuData}
           />
         } />
       </Routes>

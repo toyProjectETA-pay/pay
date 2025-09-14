@@ -5,17 +5,23 @@ import '../styles/qtyBtn.css'
 const QtyBtn = (props) => {
     const [active, setActive] = useState(false);
 
+    useEffect(() => {
+        if (props.navState === 'cart') {
+            setActive(true);
+        }
+    }, [props.navState]);
+    
     /**수량 버튼 activate 시키는 역할, 
      * 버튼과 상호작용 있을 시 타이머 초기화, 5초 이상 상호작용 없을 시 원으로 돌아감 */
     useEffect(()=>{
-        if (!active) return;
+        if (!active || props.navState === 'cart') return;
 
         const timer = setTimeout(() => {
             setActive(false);
         }, 5000);
 
         return () => clearTimeout(timer);
-    }, [active]);
+    }, [active, props.navState]);
 
     let btn;
     if(!active && props.qty === 0){

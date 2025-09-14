@@ -1,18 +1,22 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import '../styles/orderBtn.css'
 
 const OrderBtn = (props) => {
   let btn;
   const toBankUrl = `http://aq.gy/f/CTzbd/${props.total}`
 
+  useEffect(()=>{
+    console.log('orderBtn : ', props.currentState);
+  }, []);
+
   const handleClick = (e) =>{
     e.preventDefault();
-    window.open(toBankUrl, "blank");
+    window.open(toBankUrl, "_blank");
     props.goToResult();
   }
 
   if(props.navState === 'cart'){
-    if(props.total === 0){
+    if(props.total === 0 && props.currentState.length !== 0){
       btn = (
         <div
           className={'enable'}
@@ -25,13 +29,22 @@ const OrderBtn = (props) => {
         </div>
       )
     }
-    else{
+    else if(props.total !== 0 && props.currentState.length !== 0){
       btn = (
         <div
           className={'enable'}
           onClick={props.onPost}
         >
-          <a href={toBankUrl} onClick={handleClick}>{props.total}원 결제하기</a>
+          <a href={toBankUrl} onClick={handleClick}>{props.total.toLocaleString()}원 결제하기</a>
+        </div>
+      )
+    }
+    else{
+      btn = (
+        <div
+          className={'disable'}
+        >
+          주문하기
         </div>
       )
     }
