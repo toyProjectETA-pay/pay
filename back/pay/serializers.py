@@ -11,13 +11,13 @@ class MenuSerializer(serializers.ModelSerializer):
 class OrderItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = OrderItem
-        fields = ['id', 'menu', 'quantity']
+        fields = ['id', 'menu', 'quantity', 'total']
 class OrderSerializer(serializers.ModelSerializer):
     items = OrderItemSerializer(many=True)
 
     class Meta:
         model = Order
-        fields = ['id', 'created_at', 'grand_total', 'is_paid', 'items']
+        fields = ['id', 'table' ,'created_at', 'grand_total', 'is_paid', 'items']
 
     def create(self, validated_data):
         items_data = validated_data.pop('items')

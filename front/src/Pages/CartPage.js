@@ -42,16 +42,19 @@ const CartPage = (props) => {
   const { menuData, menuQty, onSelectMenu } = props;
 
   // menuData와 menuQty 합쳐서 receipt 생성
-  const cartItems = menuQty.map(q => {
-    const menu = menuData.find(m => m.id === q.id);
-    return {
-      ...q,
-      name: menu?.name || "알 수 없음",
-      price: menu?.price || 0
-    };
-  });
+  const cartItems = props.menuQty.map((item, i) => {
+  console.log("i:", i, "price:", item.price, "qty:", item.qty);
+  return {
+    id: item.id,
+    name: item.name,
+    price: Number(item.price) || 0,
+    quantity: Number(item.qty) || 0,
+    total: (Number(item.price) || 0) * (Number(item.qty) || 0)
+  };
+});
 
-  const grandTotal = cartItems.reduce((sum, item) => sum + (item.price * item.qty), 0);
+
+  const grandTotal = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
 
 
   useEffect(()=>{
@@ -82,15 +85,16 @@ const CartPage = (props) => {
   const url ="http://127.0.0.1:8000/api/orders/";
   const sendDjango = async (receipt, total)=> {
     const resData = {
+      table: props.table,
       grand_total: total,
       is_paid: false,
       items: receipt.map(item => ({
-        name: item.name,
-        price: item.price,
-        quantity: item.qty,                 // qty → quantity
-        total: item.price * item.qty        // 개별 total 계산
+        menu: item.id,
+        quantity: item.quantity,                 // qty → quantity
+        total: item.total       // 개별 total 계산
       }))
     }
+
     try{
       const response = await axios.post(url, resData, {
         headers : {
