@@ -78,7 +78,11 @@ function App() {
       if (qty === 0) return prev.filter(item => item.id !== id);
 
       // menuData에서 현재 메뉴 찾아옴
-      const menu = menuData.find(m => m.id === id);
+      const menu = menuData.find(m => Number(m.id) === Number(id));
+
+      console.log("onSelectMenu 실행:", id, qty);
+
+
 
       const exists = prev.find(item => item.id === id);
       if (exists) {
@@ -89,6 +93,8 @@ function App() {
       }
     });
   };
+
+
 
   const [page, setPage] = useState('menu');
 
