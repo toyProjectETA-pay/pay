@@ -36,7 +36,23 @@ const CartPage = (props) => {
         ...menuMap[id],
         qty,
   }));
-  console.log(receipt);
+  // console.log(receipt);
+
+   // menuData와 menuQty props로 받아옴
+  const { menuData, menuQty, onSelectMenu } = props;
+
+  // menuData와 menuQty 합쳐서 receipt 생성
+  const cartItems = menuQty.map(q => {
+    const menu = menuData.find(m => m.id === q.id);
+    return {
+      ...q,
+      name: menu?.name || "알 수 없음",
+      price: menu?.price || 0
+    };
+  });
+
+  const grandTotal = cartItems.reduce((sum, item) => sum + (item.price * item.qty), 0);
+
 
   useEffect(()=>{
     const calculate = (receipt)=>{
@@ -98,21 +114,20 @@ const CartPage = (props) => {
         navState={props.navState}
       />
       <List 
-        receipt={receipt}
-        onSelectMenu={props.onSelectMenu}
-        total={props.total}
+        receipt={cartItems}
+        onSelectMenu={onSelectMenu}
+        total={grandTotal}
       />
       
       <OrderBtn 
-      currentState = {props} // 총금액.. 뭐로 해야 하지?
+      currentState = {cartItems} // 총금액.. 뭐로 해야 하지?
       onPost = {() => {
-        sendDjango(receipt, props.total)
+        sendDjango(cartItems, grandTotal)
         props.onDecideMenu([])
-        props.setTotal(0)
         props.setMenuQty([])
       }}
       navState = {props.navState}
-      total = {props.total}
+      total = {grandTotal}
       goToResult={props.goToResult}
       />
     </>
