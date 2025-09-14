@@ -4,7 +4,9 @@ import '../styles/header.css'
 const Header = (props) => {
   return (
     <div className='header'>
-      <header>大뮤트 酒점</header>
+      <header
+        onClick={()=>props.goToMenu()}
+      >大뮤트 酒점</header>
       <div>
         <i 
           class="bi bi-receipt-cutoff"

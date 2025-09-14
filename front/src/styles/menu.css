@@ -20,12 +20,13 @@
 }
 .etc-area{
     width: 60%;
+    max-width: 200px;
     margin-left: 4vw;
     display: flex;
     flex-direction: row;
     gap: 6vw;
     align-items: center;
-    
+    position: relative;
 }
 .etc-area span{
     font-size: 16px;
@@ -66,16 +67,16 @@
     width: 40%;
     max-width: 130px;
     max-height: 130px;
-    height: 130px;            /* div 높이 지정 */
-    display: flex;             /* Flexbox */
-    justify-content: center;   /* 가로 중앙 */
-    align-items: center;       /* 세로 중앙 */
+    height: 130px;            
+    display: flex;            
+    justify-content: center;  
+    align-items: center;    
     position: relative;
 }
 .img-area img {
-    max-width: 85%;           /* 부모 div 너비에 맞춤 */
-    max-height: 85%;          /* 부모 div 높이에 맞춤 */
-    object-fit: contain;       /* 비율 유지하며 맞춤 */
+    max-width: 85%;         
+    max-height: 85%;       
+    object-fit: contain;    
 }
 .img-area > :nth-child(2){
     position: absolute;
