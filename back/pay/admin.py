@@ -7,6 +7,6 @@ class OrderItemInline(admin.TabularInline):
 
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ("id", "created_at", "grand_total", "is_paid")
-    list_filter = ("is_paid", )
+    list_display = ("id", "created_at", "grand_total", "is_paid", "is_done", "is_ready")
+    list_filter = ("is_paid", "is_done", "is_ready")
     inlines = [OrderItemInline]

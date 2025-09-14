@@ -84,15 +84,20 @@ const CartPage = (props) => {
   const url ="http://127.0.0.1:8000/api/orders/";
   const sendDjango = async (receipt, total)=> {
     const resData = {
-      table: props.table,
+      table: Number(props.table),
       grand_total: total,
       is_paid: false,
-      items: receipt.map(item => ({
-        menu: item.name,
-        quantity: item.quantity,                 // qty → quantity
-        total: item.total       // 개별 total 계산
-      }))
+      items: receipt.map(item => {
+        const menu = menuData.find(m => m.name === item.name);
+        return{
+          menu: menu?.id,
+          quantity: item.quantity,                 // qty → quantity
+          total: item.total 
+        };
+              // 개별 total 계산
+      })
     }
+    console.log("POST payload:", resData);
 
     try{
       const response = await axios.post(url, resData, {
@@ -103,7 +108,7 @@ const CartPage = (props) => {
       console.log("서버 응답: ", response.data);
       return response.data
     }catch(e){
-      console.log(e);
+      console.error("서버 응답 에러~~~~~~~~!!!",e.response?.data);
     }
   };
 
