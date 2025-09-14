@@ -6,8 +6,8 @@ import '../styles/menu.css'
 
 /**props : menuData(parsing된 메뉴), menyQty(메뉴고유아이디, 수량), onSelectMenu(수량 업데이트 함수) */
 const Menu = (props) => {
-  const getQty = (id) => {
-    const found = props.menuQty.find(item => item.id === id);
+  const getQty = (name) => {
+    const found = props.menuQty.find(item => item.name === name);
     return found ? found.qty : 0;
   };
 
@@ -17,21 +17,21 @@ if (!props.menuData) return <div>loading...</div>;
     <div className='menu-list'>
       <ul>
         {props.menuData.map((data) => (
-          <li key={data.id}>
+          <li key={data.name}>
             {props.currentTab === 'etc' ? (
-              <>
-                {data.name}
+              <div className='etc-area'>
+                <span>{data.name}</span>
                 <QtyBtn
-                  menuId={data.id}
-                  qty={getQty(data.id)}
+                  menuName={data.name}
+                  qty={getQty(data.name)}
                   onSelectMenu={props.onSelectMenu}
                 />
-              </>
+              </div>
             ) : (
               <div className='contents-box'>
                 <div className='text-area'>
                   <div>
-                    <span>{data.name}</span>
+                    <span>“{data.name}”</span>
                     <span>{data.desc}</span>
                   </div>
                   <span>{data.price.toLocaleString()}원</span>
@@ -40,8 +40,8 @@ if (!props.menuData) return <div>loading...</div>;
                 <div className='img-area'>
                   <img src={`/static/images/${data.image}`} alt={data.name}/>
                   <QtyBtn
-                    menuId={data.id}
-                    qty={getQty(data.id)}
+                    menuName={data.name}
+                    qty={getQty(data.name)}
                     onSelectMenu={props.onSelectMenu}
                   />
                 </div>

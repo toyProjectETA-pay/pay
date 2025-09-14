@@ -1,3 +1,5 @@
+@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css");
+
 .header{
     width: 100%;
     height: 12vh;
@@ -9,13 +11,14 @@
 }
 header{
     /* border: solid 1px #f00; */
+    height: auto;
     position: absolute;
     left: 6vw;
-    font-size: 40px;
+    font-size: 36px;
     font-weight: bold;
 }
 .header div{
-    width: 23%;
+    width: 20%;
     /* border: solid 1px #0f0; */
     position: absolute;
     right: 7vw;

@@ -18,7 +18,7 @@ class Menu(models.Model):
         ('beverage', '음료'),
         ('etc', '기타'),
     ]
-    category = models.CharField(max_length=20, choices=CATEGORY_CHOICES)
+    category = models.CharField(max_length=20, choices=CATEGORY_CHOICES, default="etc")
     name = models.CharField(max_length=100) # 메뉴 이름 
     desc = models.CharField(max_length=255, blank=True, null=True)  # 메뉴 설명 (짧게)
     image = models.CharField(max_length=255, blank=True, null=True)

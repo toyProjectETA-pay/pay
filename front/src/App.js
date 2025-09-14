@@ -73,23 +73,23 @@ function App() {
     2. 이전에 수량 변화가 있었던 메뉴면 기존 인덱스에 qty 새 값 덮어씌움
     3. 이전에 수량 변화가 없었던 메뉴면 새로 인덱스 생성
      */
-  const onSelectMenu = (id, qty) => {
+  const onSelectMenu = (name, qty) => {
     setMenuQty(prev => {
-      if (qty === 0) return prev.filter(item => item.id !== id);
+      if (qty === 0) return prev.filter(item => item.name !== name);
 
       // menuData에서 현재 메뉴 찾아옴
-      const menu = menuData.find(m => Number(m.id) === Number(id));
+      const menu = menuData.find(m => String(m.name) === String(name));
 
-      console.log("onSelectMenu 실행:", id, qty);
+      console.log("onSelectMenu 실행:", name, qty);
 
 
 
-      const exists = prev.find(item => item.id === id);
+      const exists = prev.find(item => item.name === name);
       if (exists) {
         return prev.map(item => 
-          item.id === id ? { ...item, qty } : item);
+          item.name === name ? { ...item, qty } : item);
       } else {
-        return [...prev, { id, qty, name: menu.name, price: menu.price }];
+        return [...prev, { name, qty, name: menu.name, price: menu.price }];
       }
     });
   };
@@ -104,7 +104,7 @@ function App() {
     //url 확정은 아니니 참고만 해주시고, 나중에 파라미터들은 암호화합싀다.
 
     //오 이거 안 읽고 그냥 한 건데 통햇네요.. 후후 후 후 후.. 불면은..구멍이뚫리는..
-    <>
+    <div className='fullscreen'>
       <Routes>
         <Route path='/' element={<Navigate to={'/aehanmute/order'} />} />
         <Route path='/aehanmute/order' element={
@@ -154,7 +154,7 @@ function App() {
           />
         } />
       </Routes>
-    </>
+    </div>
   );
 }
 

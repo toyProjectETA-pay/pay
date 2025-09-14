@@ -1,25 +1,27 @@
 import React from 'react'
-import history from '../images/history.png'
-import cart from '../images/cart.png'
-import { useNavigate } from 'react-router-dom'
 import '../styles/header.css'
 
 const Header = (props) => {
-  const navigate = useNavigate();
   return (
     <div className='header'>
-      <header>쥬쥬쥬쥬점</header>
+      <header>大뮤트 酒점</header>
       <div>
-        <img 
-          src={history} 
+        <i 
+          class="bi bi-receipt-cutoff"
+          style={{
+            fontSize : '1.55rem'
+          }}
           alt="주문내역" 
           onClick={() => props.goToHistory()}
-        />
-        <img 
-          src={cart} 
+        ></i>
+        <i 
+          class="bi bi-bag"
+          style={{
+            fontSize : '1.55rem'
+          }}
           alt="장바구니" 
           onClick={() => props.goToCart()}
-        />
+        ></i>
       </div>
     </div>
   )

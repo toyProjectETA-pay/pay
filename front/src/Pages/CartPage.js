@@ -28,58 +28,57 @@ const CartPage = (props) => {
   console.log(props.menuQty);
 
   //전체 menu set과 client가 담은 특정 메뉴의 수량 set을 합침 => 최종 데이터
-  const menuMap = Object.fromEntries(
-    menu.map(item => [item.id, item])
-  );
+  // const menuMap = Object.fromEntries(
+  //   menu.map(item => [item.id, item])
+  // );
 
-  const receipt = props.menuQty.map(({ id, qty }) => ({
-        ...menuMap[id],
-        qty,
-  }));
-  // console.log(receipt);
+  // const receipt = props.menuQty.map(({ id, qty }) => ({
+  //       ...menuMap[id],
+  //       qty,
+  // }));
+  // // console.log(receipt);
 
    // menuData와 menuQty props로 받아옴
   const { menuData, menuQty, onSelectMenu } = props;
 
   // menuData와 menuQty 합쳐서 receipt 생성
   const cartItems = props.menuQty.map((item, i) => {
-  console.log("i:", i, "price:", item.price, "qty:", item.qty);
-  return {
-    id: item.id,
-    name: item.name,
-    price: Number(item.price) || 0,
-    quantity: Number(item.qty) || 0,
-    total: (Number(item.price) || 0) * (Number(item.qty) || 0)
-  };
-});
-
+    console.log("i:", i, "name:", item.name, "price:", item.price, "qty:", item.qty);
+    return {
+      id: item.id,
+      name: item.name,
+      price: Number(item.price) || 0,
+      quantity: Number(item.qty) || 0,
+      total: (Number(item.price) || 0) * (Number(item.qty) || 0)
+    };
+  });
 
   const grandTotal = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
 
-
   useEffect(()=>{
     const calculate = (receipt)=>{
+      console.log(receipt.length)
       let total = 0;
       for(let i = 0; i<receipt.length; i++){
         if(receipt[i].price != 0){
-          total += receipt[i].price * receipt[i].qty
-          console.log('i :', i, '\nprice : ', receipt[i].price, '\nqty : ', receipt[i].qty, '\ntotal : ', total)
+          total += receipt[i].price * receipt[i].quantity
+          console.log('i :', i, '\nprice : ', receipt[i].price, '\nquantity : ', receipt[i].quantity, '\ntotal : ', total)
         }
         else{
-          console.log('i :', i, '\nqty : ', receipt[i].qty, '\ntotal : ', total)
+          console.log('i :', i, '\nquantity : ', receipt[i].quantity, '\ntotal : ', total)
           continue;
         }
       }
       props.setTotal(total);
       console.log(total);
     }
-    calculate(receipt);
-  }, [receipt]);
+    calculate(cartItems);
+  }, [cartItems]);
 
-  // useEffect(()=>{
-  //   props.onDecideMenu(receipt);
-  //   console.log(receipt);
-  // }, [props.menuQty]);
+  useEffect(()=>{
+    props.onDecideMenu(cartItems);
+    console.log(cartItems);
+  }, [props.menuQty]);
 
   //서버로 post 요청
   const url ="http://127.0.0.1:8000/api/orders/";
@@ -89,7 +88,7 @@ const CartPage = (props) => {
       grand_total: total,
       is_paid: false,
       items: receipt.map(item => ({
-        menu: item.id,
+        menu: item.name,
         quantity: item.quantity,                 // qty → quantity
         total: item.total       // 개별 total 계산
       }))
