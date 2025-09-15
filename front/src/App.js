@@ -8,6 +8,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom'
 import Result from './Pages/Result.js';
 import HistoryPage from './Pages/HistoryPage.js';
 import axios from "axios";
+import OmsPage from './Pages/OmsPage.js';
 
 function App() {
   const [activated, setActivated] = useState('main');
@@ -105,6 +106,7 @@ function App() {
     //url 확정은 아니니 참고만 해주시고, 나중에 파라미터들은 암호화합싀다.
 
     //오 이거 안 읽고 그냥 한 건데 통햇네요.. 후후 후 후 후.. 불면은..구멍이뚫리는..
+    //커다란...솜사탕.... -올빼미가
     <div className='fullscreen'>
       <Routes>
         <Route path='/' element={<Navigate to={'/aehanmute/order'} />} />
@@ -156,6 +158,11 @@ function App() {
             navState={page}
             prevOrders={orders}
             onUpdateOrders={setOrders}
+            menuData={menuData}
+          />
+        } />
+        <Route path='/oms/aehanmute' element={
+          <OmsPage 
             menuData={menuData}
           />
         } />
