@@ -35,8 +35,14 @@
 .menu-info > li {
     height: 30px;
 }
+.menu-info > li .menu-qty{
+    font-size: 1.1rem;
+    font-weight: bold;
+
+}
 .hapsuk{
-    color: crimson;
+    color: rgb(222, 26, 65);
+    font-weight: bold;
 }
 input{
     height: 25px;
@@ -59,5 +65,4 @@ button:active{
 }
 .memo-container.done {
     opacity: 0.2;
-    
 }

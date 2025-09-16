@@ -100,7 +100,8 @@ const OmsPage = (props) => {
                             }>
                                 {items.displayName}
                             </span>
-                            <span> ✖️ {items.quantity}</span>
+                            <span> ✖️ </span>
+                            <span className='menu-qty'>{items.quantity}</span>
                         </li>
                     ))}
                 </ul>
