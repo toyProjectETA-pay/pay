@@ -25,7 +25,10 @@ const HistoryPage = (props) => {
                     items: order.items.filter(item => item.price !== 0)
                 }))
                 .filter(order => order.items.length > 0);
-            console.log('히스 서버 응답 했싐 : ', res.data);
+
+            //console.log('시발왜이렇게많이넘어오지? : ', res.data)
+            //console.log(table)
+
             props.onUpdateOrders(filtered);
             } catch (err) {
             console.error(err);
@@ -54,7 +57,7 @@ const HistoryPage = (props) => {
             name: menuObj ? menuObj.name : 'Unknown'
         };
     });
-    console.log(mergedList);
+    //console.log(mergedList);
 
     const grandTotal = mergedList.reduce((sum, item) => sum + item.total, 0);
 
