@@ -8,7 +8,7 @@ const MenuPage = (props) => {
     
     useEffect(()=>{
         props.navUsedAt('menu');
-        console.log('nav changed to menu'); //working well
+        //console.log('nav changed to menu'); //working well
     }, []);
 
     // 탭별 데이터 분리
@@ -29,9 +29,9 @@ const MenuPage = (props) => {
   };
 
 const filteredMenus = props.menuData.filter(m => m.category === props.currentMenu);
-console.log("currentTab:", props.currentMenu);
-console.log("menuData sample:", props.menuData);
-console.log("filteredMenus:", filteredMenus);
+// console.log("currentTab:", props.currentMenu);
+// console.log("menuData sample:", props.menuData);
+// console.log("filteredMenus:", filteredMenus);
 
     return (
         <>

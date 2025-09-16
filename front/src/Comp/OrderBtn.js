@@ -6,7 +6,7 @@ const OrderBtn = (props) => {
   const toBankUrl = `http://aq.gy/f/CTzbd/${props.total}`
 
   useEffect(()=>{
-    console.log('orderBtn : ', props.currentState);
+    //console.log('orderBtn : ', props.currentState);
   }, []);
 
   if(props.navState === 'cart'){

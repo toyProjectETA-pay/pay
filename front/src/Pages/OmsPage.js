@@ -12,7 +12,7 @@ const OmsPage = (props) => {
             if (!props.menuData || props.menuData.length === 0) return; // 메뉴데이터 없으면 대기
 
             try{
-                const res = await axios.get('http://127.0.0.1:8000/api/orders', {
+                const res = await axios.get('http://127.0.0.1:8000/api/orders/kitchen', {
                     params:{
                         is_paid: true,
                         is_ready: false,
@@ -37,7 +37,7 @@ const OmsPage = (props) => {
             setOrders(shouldBeReady);
 
             } catch(err){
-                console.log('catch문 : ', err);
+                // console.log('catch문 : ', err);
             }
         }
         fetchPaidOrders();
@@ -51,7 +51,7 @@ const OmsPage = (props) => {
 
     //콘솔로그로그로그로그로그로그로글!!!!!!!!!!!!!!!
     useEffect(() => {
-        console.log("바뀌었슨. : ", orders);
+        // console.log("바뀌었슨. : ", orders);
     }, [orders]);
 
     //현 시각 - 주문 시각 => 입장자 분들 덜 기다리시게끔
@@ -75,8 +75,8 @@ const OmsPage = (props) => {
                     order.id === orderId ? { ...order, is_ready: true } : order
                 )
             );
-            console.log('PATCH 요청 성공했는지보셈셈 : ', res.data)
-            console.log('PATCH 확인 : ', orders.find(orders => orders.id === orderId))
+            // console.log('PATCH 요청 성공했는지보셈셈 : ', res.data)
+            // console.log('PATCH 확인 : ', orders.find(orders => orders.id === orderId))
         } catch (err) {
             console.error("PATCH 실패:", err);
         }

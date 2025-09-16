@@ -15,14 +15,14 @@ const CartPage = (props) => {
   useEffect(()=>{
     props.navUsedAt('cart');  //cart로 nav 상태 변경
   }, []);
-  console.log(props.menuQty);
+  //console.log(props.menuQty);
 
    // menuData와 menuQty props로 받아옴
   const { menuData, menuQty, onSelectMenu, token } = props;
 
   // menuData와 menuQty 합쳐서 receipt 생성
   const cartItems = props.menuQty.map((item, i) => {
-    console.log("i:", i, "name:", item.name, "price:", item.price, "qty:", item.qty);
+    //console.log("i:", i, "name:", item.name, "price:", item.price, "qty:", item.qty);
     return {
       id: item.id,
       name: item.name,
@@ -36,27 +36,27 @@ const CartPage = (props) => {
 
   useEffect(()=>{
     const calculate = (receipt)=>{
-      console.log(receipt.length)
+      //console.log(receipt.length)
       let total = 0;
       for(let i = 0; i<receipt.length; i++){
         if(receipt[i].price != 0){
           total += receipt[i].price * receipt[i].quantity
-          console.log('i :', i, '\nprice : ', receipt[i].price, '\nquantity : ', receipt[i].quantity, '\ntotal : ', total)
+          //console.log('i :', i, '\nprice : ', receipt[i].price, '\nquantity : ', receipt[i].quantity, '\ntotal : ', total)
         }
         else{
-          console.log('i :', i, '\nquantity : ', receipt[i].quantity, '\ntotal : ', total)
+          //console.log('i :', i, '\nquantity : ', receipt[i].quantity, '\ntotal : ', total)
           continue;
         }
       }
       props.setTotal(total);
-      console.log(total);
+      //console.log(total);
     }
     calculate(cartItems);
   }, [cartItems]);
 
   useEffect(()=>{
     props.onDecideMenu(cartItems);
-    console.log(cartItems);
+    //console.log(cartItems);
   }, [props.menuQty]);
 
   //서버로 post 요청
@@ -80,7 +80,7 @@ const CartPage = (props) => {
               // 개별 total 계산
       })
     }
-    console.log("POST payload:", resData);
+    //console.log("POST payload:", resData);
 
     try{
       const response = await axios.post(url, resData, {
@@ -89,7 +89,9 @@ const CartPage = (props) => {
           Authorization: `Bearer ${token}`
         },
       });
-      console.log("카트 서버 응답: ", response.data);
+
+      //console.log("서버 응답: ", response.data);
+
       return response.data
     }catch(e){
       console.error("서버 응답 에러~~~~~~~~!!!",e.response?.data);

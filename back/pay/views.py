@@ -8,6 +8,8 @@ from rest_framework import status
 import datetime
 from django.conf import settings
 import jwt
+from django.core.cache import cache
+
 
 from .serializers import OrderSerializer, MenuSerializer
 
@@ -25,9 +27,6 @@ class OrderViewSet(generics.ListCreateAPIView):
     def get_queryset(self):
         queryset = super().get_queryset()
 
-        # 추가: 결제 완료 됐고 아직 처리 안 된 주문 
-        queryset = queryset.filter(is_paid=True, is_done=False)
-
         # 쿼리스트링으로 받은 값 가져오기
         is_paid = self.request.query_params.get('is_paid')
         is_done = self.request.query_params.get('is_done')
@@ -43,9 +42,18 @@ class OrderViewSet(generics.ListCreateAPIView):
 
         return queryset
 
-class MenuListAPIView(generics.ListAPIView):
-    queryset = Menu.objects.all()
-    serializer_class = MenuSerializer
+# 동시 접근 lock 우려 => 메뉴는 DB 접근 X 캐시로 get 
+class MenuListAPIView(APIView):
+    def get(self, request):
+        # 캐시 확인
+        menus = cache.get("menu_list")
+        if not menus:
+            # 없으면 DB에서 읽고 캐시에 저장
+            queryset = Menu.objects.all()
+            serializer = MenuSerializer(queryset, many=True)
+            menus = serializer.data
+            cache.set("menu_list", menus, timeout=60*60)  # 1시간 캐시
+        return Response(menus)
 
 class OrderReadyView(APIView):
     def patch(self, request, pk):
@@ -55,6 +63,13 @@ class OrderReadyView(APIView):
 
         serializer = OrderSerializer(order)
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+class KitchenOrderView(generics.ListAPIView):
+    serializer_class = OrderSerializer
+
+    def get_queryset(self):
+        return Order.objects.filter(is_paid=True, is_done=False)
 
 
 # 보안 
