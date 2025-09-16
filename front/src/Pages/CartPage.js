@@ -18,7 +18,7 @@ const CartPage = (props) => {
   console.log(props.menuQty);
 
    // menuData와 menuQty props로 받아옴
-  const { menuData, menuQty, onSelectMenu } = props;
+  const { menuData, menuQty, onSelectMenu, token } = props;
 
   // menuData와 menuQty 합쳐서 receipt 생성
   const cartItems = props.menuQty.map((item, i) => {
@@ -63,7 +63,7 @@ const CartPage = (props) => {
   const url ="http://127.0.0.1:8000/api/orders/";
   const sendDjango = async (receipt, total)=> {
     const resData = {
-      table: Number(props.table),
+      // table: Number(props.table), //token을 받아오기에 수정해야
       grand_total: total,
       is_paid: false,
       items: receipt.map(item => {
@@ -82,9 +82,10 @@ const CartPage = (props) => {
       const response = await axios.post(url, resData, {
         headers : {
           'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`
         },
       });
-      console.log("서버 응답: ", response.data);
+      console.log("카트 서버 응답: ", response.data);
       return response.data
     }catch(e){
       console.error("서버 응답 에러~~~~~~~~!!!",e.response?.data);

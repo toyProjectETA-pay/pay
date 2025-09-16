@@ -20,24 +20,35 @@ function App() {
   // 하겅추가  url로부터 table number 받기 
   // 화면에 테이블 번호 출력하고 싶다면 table 변수를 쓰시오~~!! 
   const [searchParams] = useSearchParams(); // 배열 구조분해라네 
-  const table = searchParams.get("table");  
+  const token = searchParams.get("token");  
 
 
 
   const navigate = useNavigate();
 
-
-  const goToCart = () => {
-      navigate(`/aehanmute/cart?table=${table}`);
+  // const goToCart = () => {
+  //     navigate(`/aehanmute/cart?table=${table}`);
+  // };
+  // const goToHistory = () =>{
+  //     navigate(`/aehanmute/history?table=${table}`);
+  // }
+  // const goToResult = () =>{
+  //     navigate(`/aehanmute/orderresult?table=${table}`);
+  // }
+  // const goToMenu = () =>{
+  //     navigate(`/aehanmute/order?table=${table}`);
+  // }
+  const goToCart = (token) => {
+    navigate(`/aehanmute/cart?token=${token}`);
   };
-  const goToHistory = () =>{
-      navigate(`/aehanmute/history?table=${table}`);
+  const goToHistory = (token) =>{
+      navigate(`/aehanmute/history?token=${token}`);
   }
-  const goToResult = () =>{
-      navigate(`/aehanmute/orderresult?table=${table}`);
+  const goToResult = (token) =>{
+      navigate(`/aehanmute/orderresult?token=${token}`);
   }
-  const goToMenu = () =>{
-      navigate(`/aehanmute/order?table=${table}`);
+  const goToMenu = (token) =>{
+      navigate(`/aehanmute/order?token=${token}`);
   }
 
   /*menu.json 불러오는 비동기함수, 첫 렌더링에만 실행 */
@@ -96,9 +107,19 @@ function App() {
     });
   };
 
-
-
   const [page, setPage] = useState('menu');
+
+  //보안강화!!!!!!!!!!!!최소한만최소한만빠르게!!!!!!!!
+  // 테이블 번호(table)로 서버에 요청해서 JWT 토큰 발급받는 함수
+  const fetchToken = async (table) => {
+    try {
+      const res = await axios.get(`http://127.0.0.1:8000/api/generate-token/${table}/`);  //modify here when 하겅이가 서버 url 설정하ㅁ면
+      return res.data.token;  // 서버가 반환한 JWT 토큰
+    } catch (err) {
+      console.error("토큰 발급 실패:", err);
+      return null;
+    }
+  };
 
 
   return (
@@ -127,7 +148,7 @@ function App() {
         } />
         <Route path='/aehanmute/cart/' element={
           <CartPage 
-            table={table}
+            token={token} //table -> token으로
             goToCart={goToCart}
             goToHistory={goToHistory}
             goToMenu={goToMenu}
@@ -159,6 +180,7 @@ function App() {
             prevOrders={orders}
             onUpdateOrders={setOrders}
             menuData={menuData}
+            token={token}
           />
         } />
         <Route path='/oms' element={<Navigate to={'/oms/aehanmute/'} />} />

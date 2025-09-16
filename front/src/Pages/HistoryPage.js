@@ -6,9 +6,6 @@ import { useSearchParams } from 'react-router-dom';
 import '../styles/list.css'
 
 const HistoryPage = (props) => {
-    const [searchParams] = useSearchParams();
-    const table = searchParams.get("table");
-
     //is_done이 false 이고, is_paid가 true인 값 보여주기
     useEffect(() => {
         props.navUsedAt('history');
@@ -16,18 +13,19 @@ const HistoryPage = (props) => {
         const fetchOrders = async () => {
             try {
             const res = await axios.get('http://127.0.0.1:8000/api/orders/', {
-                params: { table: table } // 쿼리스트링으로 table 넘김
+                headers: {
+                    Authorization: `Bearer ${props.token}`
+                }
             });
             const filtered = res.data
                 // .filter(order => order.is_paid)
-                .filter(order => !order.is_done && order.is_paid && order.table === Number(table))
+                .filter(order => !order.is_done && order.is_paid)
                 .map(order => ({
                     ...order,
                     items: order.items.filter(item => item.price !== 0)
                 }))
                 .filter(order => order.items.length > 0);
-            console.log('시발왜이렇게많이넘어오지? : ', res.data)
-            console.log(table)
+            console.log('히스 서버 응답 했싐 : ', res.data);
             props.onUpdateOrders(filtered);
             } catch (err) {
             console.error(err);
