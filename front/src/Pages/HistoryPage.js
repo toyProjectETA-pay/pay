@@ -19,7 +19,7 @@ const HistoryPage = (props) => {
             });
             const filtered = res.data
                 // .filter(order => order.is_paid)
-                .filter(order => !order.is_done && order.is_paid)
+                .filter(order => !order.is_done && order.is_paid && order.table === Number(props.table))
                 .map(order => ({
                     ...order,
                     items: order.items.filter(item => item.price !== 0)
@@ -64,9 +64,11 @@ const HistoryPage = (props) => {
                 goToCart={props.goToCart}
                 goToHistory={props.goToHistory}
                 goToMenu={props.goToMenu}
+                token={props.token}
             />
             <Nav 
                 navState={props.navState}
+                table={props.table}
             />
             <ul style={{
                 margin:"0",

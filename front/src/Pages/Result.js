@@ -10,7 +10,7 @@ const Result = (props) => {
         <h2>주문이 완료되었습니다!</h2>
         <p>카운터에서 주문 확인 중 ...</p>
       </div>
-      <p onClick={props.goToMenu} style={{color : "#d2d2d2", textDecoration : "underline"}}>메뉴로 돌아가기</p>
+      <p onClick={props.goToMenu(props.token)} style={{color : "#d2d2d2", textDecoration : "underline"}}>메뉴로 돌아가기</p>
     </div>
   )
 }

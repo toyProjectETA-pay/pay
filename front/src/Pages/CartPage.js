@@ -62,8 +62,12 @@ const CartPage = (props) => {
   //서버로 post 요청
   const url ="http://127.0.0.1:8000/api/orders/";
   const sendDjango = async (receipt, total)=> {
+    if (!token) {   // token 방어 코드
+      alert('세션(token)이 없습니다. QR을 다시 스캔해주세요.');
+      return;
+    }
     const resData = {
-      // table: Number(props.table), //token을 받아오기에 수정해야
+      table: Number(props.table), 
       grand_total: total,
       is_paid: false,
       items: receipt.map(item => {
@@ -98,9 +102,11 @@ const CartPage = (props) => {
         goToCart={props.goToCart}
         goToHistory={props.goToHistory}
         goToMenu={props.goToMenu}
+        token={token}
       />
       <Nav 
         navState={props.navState}
+        table={props.table}
       />
       <List 
         receipt={cartItems}
@@ -119,6 +125,7 @@ const CartPage = (props) => {
         navState = {props.navState}
         total = {grandTotal}
         goToResult={props.goToResult}
+        token={token}
       />
     </>
     

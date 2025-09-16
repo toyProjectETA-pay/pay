@@ -4,7 +4,7 @@ import './App.css';
 import { loadMenu, getActivatedMenuList } from './Handler/menuLoader.js';
 import MenuPage from './Pages/MenuPage.js';
 import CartPage from './Pages/CartPage.js';
-import { useNavigate, useSearchParams } from 'react-router-dom'
+import { useNavigate, useSearchParams, useLocation } from 'react-router-dom'
 import Result from './Pages/Result.js';
 import HistoryPage from './Pages/HistoryPage.js';
 import axios from "axios";
@@ -20,11 +20,16 @@ function App() {
   // 하겅추가  url로부터 table number 받기 
   // 화면에 테이블 번호 출력하고 싶다면 table 변수를 쓰시오~~!! 
   const [searchParams] = useSearchParams(); // 배열 구조분해라네 
+  const queryTable = searchParams.get("table");
+  const queryToken = searchParams.get("token");
+  const table = searchParams.get("table");
   const token = searchParams.get("token");  
 
-
-
+  const location = useLocation();
   const navigate = useNavigate();
+
+  const [tokenState, setTokenState] = useState(() => queryToken || localStorage.getItem('token') || null);
+  const [tableState, setTableState] = useState(() => queryTable || localStorage.getItem('table') || null);
 
   // const goToCart = () => {
   //     navigate(`/aehanmute/cart?table=${table}`);
@@ -38,18 +43,18 @@ function App() {
   // const goToMenu = () =>{
   //     navigate(`/aehanmute/order?table=${table}`);
   // }
-  const goToCart = (token) => {
-    navigate(`/aehanmute/cart?token=${token}`);
+  const goToCart = () => {
+    navigate(`/aehanmute/cart?token=${tokenState || ''}`);
   };
-  const goToHistory = (token) =>{
-      navigate(`/aehanmute/history?token=${token}`);
-  }
-  const goToResult = (token) =>{
-      navigate(`/aehanmute/orderresult?token=${token}`);
-  }
-  const goToMenu = (token) =>{
-      navigate(`/aehanmute/order?token=${token}`);
-  }
+  const goToHistory = () => {
+    navigate(`/aehanmute/history?token=${tokenState || ''}`);
+  };
+  const goToResult = () => {
+    navigate(`/aehanmute/orderresult?token=${tokenState || ''}`);
+  };
+  const goToMenu = () => {
+    navigate(`/aehanmute/order?token=${tokenState || ''}`);
+  };
 
   /*menu.json 불러오는 비동기함수, 첫 렌더링에만 실행 */
   useEffect(()=>{
@@ -65,11 +70,12 @@ function App() {
     setMenu(getActivatedMenuList(activated));
   }, [activated]);
 
-  /*내사랑콘솔로그 */
-  useEffect(()=>{
-    console.log(menuQty);
-    console.log(total);
-  }, [menuQty]);
+  // 첫 렌더링 시 table 번호 있으면 토큰 발급
+  useEffect(() => {
+    if (table) {
+      fetchToken(table);
+    }
+  }, [table]);
 
   const [menuData, setMenuData] = useState([]);
   useEffect(()=>{
@@ -113,13 +119,37 @@ function App() {
   // 테이블 번호(table)로 서버에 요청해서 JWT 토큰 발급받는 함수
   const fetchToken = async (table) => {
     try {
-      const res = await axios.get(`http://127.0.0.1:8000/api/generate-token/${table}/`);  //modify here when 하겅이가 서버 url 설정하ㅁ면
-      return res.data.token;  // 서버가 반환한 JWT 토큰
+      const res = await axios.get(`http://127.0.0.1:8000/api/generate-token/${table}/`);
+      const t = res.data.token;
+      setTokenState(t);
+      setTableState(table);
+      localStorage.setItem('token', t);
+      localStorage.setItem('table', table);
+      navigate(`${location.pathname}?token=${t}`, { replace: true });
+      return t;
     } catch (err) {
       console.error("토큰 발급 실패:", err);
       return null;
     }
   };
+
+  // 첫 진입/새로고침 시 token, table 처리
+  useEffect(() => {
+    (async () => {
+      if (queryToken && !tokenState) {
+        setTokenState(queryToken);
+        localStorage.setItem('token', queryToken);
+      } else if (queryTable && !tokenState) {
+        await fetchToken(queryTable);
+      } else if (!queryToken && !queryTable) {
+        const savedToken = localStorage.getItem('token');
+        const savedTable = localStorage.getItem('table');
+        if (savedToken) setTokenState(savedToken);
+        if (savedTable) setTableState(savedTable);
+      }
+    })();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [queryTable, queryToken]);
 
 
   return (
@@ -144,11 +174,13 @@ function App() {
             onSelectMenu={onSelectMenu}
             goToCart={goToCart}
             goToHistory={goToHistory}
+            table={tableState}
+            token={tokenState}
           />
         } />
         <Route path='/aehanmute/cart/' element={
           <CartPage 
-            token={token} //table -> token으로
+            token={tokenState} //table -> token으로
             goToCart={goToCart}
             goToHistory={goToHistory}
             goToMenu={goToMenu}
@@ -163,11 +195,13 @@ function App() {
             onDecideMenu={(receipt)=>{ setReceipt(receipt); }}
             total={total}
             setTotal={(receipt)=>{ setTotal(receipt) }}
+            table={tableState}
           />
         } />
         <Route path='/aehanmute/orderresult/' element={
           <Result 
             goToMenu={goToMenu}
+            token={tokenState}
           />
         } />
         <Route path='/aehanmute/history/' element={
@@ -180,7 +214,8 @@ function App() {
             prevOrders={orders}
             onUpdateOrders={setOrders}
             menuData={menuData}
-            token={token}
+            token={tokenState}
+            table={tableState}
           />
         } />
         <Route path='/oms' element={<Navigate to={'/oms/aehanmute/'} />} />

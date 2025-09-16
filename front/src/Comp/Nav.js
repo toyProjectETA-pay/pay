@@ -6,8 +6,6 @@ import { useSearchParams } from 'react-router-dom'
 const Nav = (props) => {
     let contents;
 
-    const [searchParams] = useSearchParams(); // 배열 구조분해라네 
-    const table = searchParams.get("table");
 
 
     if(props.navState === 'menu'){
@@ -50,7 +48,7 @@ const Nav = (props) => {
     }
     else if(props.navState === 'cart' || props.navState === 'history'){
         contents = (
-            <span>{table}번 테이블</span>
+            <span>{props.table}번 테이블</span>
         )
     }
 
