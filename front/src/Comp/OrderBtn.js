@@ -16,7 +16,7 @@ const OrderBtn = (props) => {
           className={'enable'}
           onClick={()=>{
             props.onPost();
-            props.goToResult();
+            props.goToResult(props.token);
           }}
         >
           주문하기
@@ -31,7 +31,7 @@ const OrderBtn = (props) => {
             e.preventDefault();
             window.open(toBankUrl, "_blank");
             props.onPost();
-            props.goToResult();
+            props.goToResult(props.token);
           }}
         >
           {props.total.toLocaleString()}원 결제하기
