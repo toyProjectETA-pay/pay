@@ -109,7 +109,7 @@ function App() {
     //커다란...솜사탕.... -올빼미가
     <div className='fullscreen'>
       <Routes>
-        <Route path='/' element={<Navigate to={'/aehanmute/order'} />} />
+        <Route path='/' element={<Navigate to={'/aehanmute/order/'} />} />
         <Route path='/aehanmute/order' element={
           <MenuPage 
             currentMenu={activated}
@@ -161,7 +161,8 @@ function App() {
             menuData={menuData}
           />
         } />
-        <Route path='/oms/aehanmute' element={
+        <Route path='/oms' element={<Navigate to={'/oms/aehanmute/'} />} />
+        <Route path='/oms/aehanmute/' element={
           <OmsPage 
             menuData={menuData}
           />
