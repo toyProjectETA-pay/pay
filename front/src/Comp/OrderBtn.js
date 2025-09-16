@@ -9,12 +9,6 @@ const OrderBtn = (props) => {
     console.log('orderBtn : ', props.currentState);
   }, []);
 
-  const handleClick = (e) =>{
-    e.preventDefault();
-    window.open(toBankUrl, "_blank");
-    props.goToResult();
-  }
-
   if(props.navState === 'cart'){
     if(props.total === 0 && props.currentState.length !== 0){
       btn = (
@@ -33,9 +27,14 @@ const OrderBtn = (props) => {
       btn = (
         <div
           className={'enable'}
-          onClick={props.onPost}
+          onClick={(e)=>{
+            e.preventDefault();
+            window.open(toBankUrl, "_blank");
+            props.onPost();
+            props.goToResult();
+          }}
         >
-          <a href={toBankUrl} onClick={handleClick}>{props.total.toLocaleString()}원 결제하기</a>
+          {props.total.toLocaleString()}원 결제하기
         </div>
       )
     }

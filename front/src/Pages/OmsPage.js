@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios';
+import '../styles/oms.css'
 
 const OmsPage = (props) => {
     const [orders, setOrders] = useState([]);
+    const [isActive, setIsActive] = useState({});
 
     //orders mapping
     useEffect(()=>{
@@ -42,7 +44,7 @@ const OmsPage = (props) => {
 
         const autoRefresh = setInterval(()=>{
             fetchPaidOrders();
-        }, 5000)
+        }, 30000)
 
         return () => clearInterval(autoRefresh);
     }, [props.menuData]);
@@ -84,25 +86,43 @@ const OmsPage = (props) => {
     //mapping orders set to show order lists to client
     let memos = (
         orders.map((orders) => (
-            <div key={orders.id}>
-                <div>
+            <div key={orders.id} className={`memo-container ${isActive[orders.id] ? 'done' : ''}`}>
+                <div className='order-info'>
                     <span>#{orders.id}</span>
-                    <span> ({createdTime(orders.created_at)}분 전)</span>
+                    <span className='order-time'> ({createdTime(orders.created_at)}분 전)</span>
                 </div>
-                <div>{orders.table}번 테이블</div>
-                {orders.items.map((items) => (
-                    <div key={items.menu}>
-                        <span>{items.displayName}</span>
-                        <span> ✖️ {items.quantity}</span>
-                    </div>
-                ))}
-                <button onClick={() => handleReady(orders.id)}>준비완료</button>
+                <div className='table-info'>{orders.table}번 테이블</div>
+                <ul className='menu-info'>
+                    {orders.items.map((items) => (
+                        <li key={items.menu}>
+                            <span className={
+                                items.displayName === '합석 성공 시 사이드 증정' ? 'hapsuk' : 'menu'
+                            }>
+                                {items.displayName}
+                            </span>
+                            <span> ✖️ </span>
+                            <span className='menu-qty'>{items.quantity}</span>
+                        </li>
+                    ))}
+                </ul>
+                <div>
+                    <input placeholder='해당 주문 담당 주방'></input>
+                    <input placeholder='해당 주문 담당 서빙'></input>
+                </div>
+                
+                <button
+                    onClick={() => {
+                        handleReady(orders.id); // 서버 PATCH
+                        // 해당 주문의 active 상태 true로
+                        setIsActive(prev => ({ ...prev, [orders.id]: true }));
+                    }}
+                >준비완료</button>
             </div>
         ))
     )
 
     return (
-        <div>{memos}</div>
+        <div className='memo-board'>{memos}</div>
     )
 }
 
