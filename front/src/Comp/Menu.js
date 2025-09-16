@@ -39,11 +39,15 @@ if (!props.menuData) return <div>loading...</div>;
                 </div>
                 <div className='img-area'>
                   <img src={`/static/images/${data.image}`} alt={data.name}/>
-                  <QtyBtn
-                    menuName={data.name}
-                    qty={getQty(data.name)}
-                    onSelectMenu={props.onSelectMenu}
-                  />
+                  {
+                    !(data.sold_out) ? 
+                    <QtyBtn
+                      menuName={data.name}
+                      qty={getQty(data.name)}
+                      onSelectMenu={props.onSelectMenu}
+                    /> :
+                    <></>
+                  }
                 </div>
               </div>
             )}
