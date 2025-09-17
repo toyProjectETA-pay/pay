@@ -1,14 +1,18 @@
 from rest_framework.response import Response
 from rest_framework import generics
 from rest_framework.views import APIView
-
+from rest_framework_simplejwt.tokens import RefreshToken
+from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
-from .models import Order, Menu
+from .models import Order, Menu, OrderItem
 from rest_framework import status
 import datetime
 from django.conf import settings
 import jwt
 from django.core.cache import cache
+
+from django.contrib.auth.models import User
+from datetime import datetime, timedelta
 
 
 from .serializers import OrderSerializer, MenuSerializer
@@ -69,29 +73,46 @@ class KitchenOrderView(generics.ListAPIView):
     serializer_class = OrderSerializer
 
     def get_queryset(self):
-        return Order.objects.filter(is_paid=True, is_done=False)
+        return Order.objects.filter(is_paid=True, is_done=False, is_ready=False)
 
 
 # 보안 
 SECRET_KEY = settings.SECRET_KEY
 
 
-@csrf_exempt
 def generate_token(request, table_id):
-    exp_time = datetime.datetime.now(datetime.timezone.utc) + datetime.timedelta(minutes=30)
-    payload = {
-        "table_id": table_id,
-        "exp": exp_time
-    }
-    token = jwt.encode(payload, SECRET_KEY, algorithm="HS256")
-    return JsonResponse({"token": token})
+    try:
+        user = User.objects.get(username=f"table_{table_id}")
+    except User.DoesNotExist:
+        user = User.objects.create_user(username=f"table_{table_id}", password="dummy1234")
+
+    refresh = RefreshToken.for_user(user)
+    return JsonResponse({
+        'refresh': str(refresh),
+        'access': str(refresh.access_token),
+    })
 
 
-def order_page(request):
-    token = request.GET.get("token")
-    payload = verify_token(token)
-    if not payload:
-        return HttpResponseForbidden("토큰이 유효하지 않습니다.")
-    
-    table_id = payload["table_id"]
-    return JsonResponse({"table_id": payload["table_id"], "order":"sample"})
+def create(self, request, *args, **kwargs):
+    # 1. Authorization 헤더에서 토큰 꺼내기
+    auth_header = request.headers.get("Authorization")
+    if not auth_header:
+        return Response({"error": "토큰 없음"}, status=401)
+
+    try:
+        token = auth_header.split(" ")[1]
+        payload = jwt.decode(token, settings.SECRET_KEY, algorithms=["HS256"])
+        table_id = payload["table_id"]
+    except jwt.ExpiredSignatureError:
+        return Response({"error": "토큰 만료"}, status=401)
+    except jwt.InvalidTokenError:
+        return Response({"error": "잘못된 토큰"}, status=401)
+
+    # 2. request.data 안의 table 값 무시하고 토큰에서 table_id 사용
+    data = request.data.copy()
+    data["table"] = table_id
+
+    serializer = self.get_serializer(data=data)
+    serializer.is_valid(raise_exception=True)
+    self.perform_create(serializer)
+    return Response(serializer.data, status=201)
