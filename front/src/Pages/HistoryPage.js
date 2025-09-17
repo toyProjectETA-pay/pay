@@ -1,52 +1,52 @@
-import React, { useEffect, useState } from 'react'
-import Header from '../Comp/Header'
+import React, { useEffect } from 'react';
+import Header from '../Comp/Header';
 import Nav from '../Comp/Nav';
 import axios from 'axios';
-import { useSearchParams } from 'react-router-dom';
-import '../styles/list.css'
+import '../styles/list.css';
+
+// ✅ API Base URL
+const API_URL = process.env.REACT_APP_API_URL || "http://54.180.22.253/api";
 
 const HistoryPage = (props) => {
-    //is_done이 false 이고, is_paid가 true인 값 보여주기
     useEffect(() => {
         props.navUsedAt('history');
 
         const fetchOrders = async () => {
             try {
-            const res = await axios.get('http://127.0.0.1:8000/api/orders/', {
-                headers: {
-                    Authorization: `Bearer ${props.token}`
-                }
-            });
-            const filtered = res.data
-                // .filter(order => order.is_paid)
-                .filter(order => !order.is_done && order.is_paid && order.table === Number(props.table))
-                .map(order => ({
-                    ...order,
-                    items: order.items.filter(item => item.price !== 0)
-                }))
-                .filter(order => order.items.length > 0);
+                const res = await axios.get(`${API_URL}/orders/`, {
+                    headers: {
+                        Authorization: `Bearer ${props.token || localStorage.getItem("token")}`
+                    }
+                });
 
-            //console.log('시발왜이렇게많이넘어오지? : ', res.data)
-            //console.log(table)
+                const filtered = res.data
+                    .filter(order => !order.is_done && order.is_paid && order.table === Number(props.table))
+                    .map(order => ({
+                        ...order,
+                        items: order.items.filter(item => item.price !== 0)
+                    }))
+                    .filter(order => order.items.length > 0);
 
-            props.onUpdateOrders(filtered);
+                props.onUpdateOrders(filtered);
             } catch (err) {
-            console.error(err);
+                console.error("주문 내역 불러오기 실패:", err.message);
             }
         };
-        fetchOrders();
-    }, []);
 
+        fetchOrders();
+    }, [props.navUsedAt, props.onUpdateOrders, props.table, props.token]);
+
+    // 주문 아이템 합산 처리
     const mergedItems = {};
     props.prevOrders.forEach(order => {
         order.items.forEach(item => {
-        const menuId = item.menu; // 숫자 id
-        if (!mergedItems[menuId]) {
-            mergedItems[menuId] = { ...item }; // 처음이면 그대로 저장
-        } else {
-            mergedItems[menuId].quantity += item.quantity; // 수량 합산
-            mergedItems[menuId].total += item.total;       // 총액 합산
-        }
+            const menuId = item.menu;
+            if (!mergedItems[menuId]) {
+                mergedItems[menuId] = { ...item };
+            } else {
+                mergedItems[menuId].quantity += item.quantity;
+                mergedItems[menuId].total += item.total;
+            }
         });
     });
 
@@ -57,7 +57,6 @@ const HistoryPage = (props) => {
             name: menuObj ? menuObj.name : 'Unknown'
         };
     });
-    //console.log(mergedList);
 
     const grandTotal = mergedList.reduce((sum, item) => sum + item.total, 0);
 
@@ -69,14 +68,11 @@ const HistoryPage = (props) => {
                 goToMenu={props.goToMenu}
                 token={props.token}
             />
-            <Nav 
+            <Nav
                 navState={props.navState}
                 table={props.table}
             />
-            <ul style={{
-                margin:"0",
-                padding:"0"
-            }}>
+            <ul style={{ margin: "0", padding: "0" }}>
                 {mergedList.map(item => (
                     <li key={item.menu} className='list'>
                         <span>{item.name}</span>
@@ -89,7 +85,7 @@ const HistoryPage = (props) => {
                 총 {grandTotal.toLocaleString()}원
             </div>
         </>
-    )
-}
+    );
+};
 
-export default HistoryPage
+export default HistoryPage;

@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route, Navigate, useNavigate, useSearchParams, useLocation } from 'react-router-dom';
 import './App.css';
 import { loadMenu, getActivatedMenuList } from './Handler/menuLoader.js';
 import MenuPage from './Pages/MenuPage.js';
 import CartPage from './Pages/CartPage.js';
-import { useNavigate, useSearchParams, useLocation } from 'react-router-dom'
 import Result from './Pages/Result.js';
 import HistoryPage from './Pages/HistoryPage.js';
 import axios from "axios";
 import OmsPage from './Pages/OmsPage.js';
+
+// ✅ API Base URL (환경변수로 설정)
+const API_URL = process.env.REACT_APP_API_URL || "http://aehan-mutejujeom/api";
 
 function App() {
   const [activated, setActivated] = useState('main');
@@ -17,13 +19,11 @@ function App() {
   const [receipt, setReceipt] = useState([]);
   const [total, setTotal] = useState(0);
   const [orders, setOrders] = useState([]);
-  // 하겅추가  url로부터 table number 받기 
-  // 화면에 테이블 번호 출력하고 싶다면 table 변수를 쓰시오~~!! 
-  const [searchParams] = useSearchParams(); // 배열 구조분해라네 
+
+  const [searchParams] = useSearchParams(); 
   const queryTable = searchParams.get("table");
   const queryToken = searchParams.get("token");
   const table = searchParams.get("table");
-  const token = searchParams.get("token");  
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -31,82 +31,55 @@ function App() {
   const [tokenState, setTokenState] = useState(() => queryToken || localStorage.getItem('token') || null);
   const [tableState, setTableState] = useState(() => queryTable || localStorage.getItem('table') || null);
 
-  // const goToCart = () => {
-  //     navigate(`/aehanmute/cart?table=${table}`);
-  // };
-  // const goToHistory = () =>{
-  //     navigate(`/aehanmute/history?table=${table}`);
-  // }
-  // const goToResult = () =>{
-  //     navigate(`/aehanmute/orderresult?table=${table}`);
-  // }
-  // const goToMenu = () =>{
-  //     navigate(`/aehanmute/order?table=${table}`);
-  // }
-  const goToCart = () => {
-    navigate(`/aehanmute/cart?token=${tokenState || ''}`);
-  };
-  const goToHistory = () => {
-    navigate(`/aehanmute/history?token=${tokenState || ''}`);
-  };
-  const goToResult = () => {
-    navigate(`/aehanmute/orderresult?token=${tokenState || ''}`);
-  };
-  const goToMenu = () => {
-    navigate(`/aehanmute/order?token=${tokenState || ''}`);
-  };
+  // 네비게이션 이동 함수들
+  const goToCart = () => navigate(`/aehanmute/cart?token=${tokenState || ''}`);
+  const goToHistory = () => navigate(`/aehanmute/history?token=${tokenState || ''}`);
+  const goToResult = () => navigate(`/aehanmute/orderresult?token=${tokenState || ''}`);
+  const goToMenu = () => navigate(`/aehanmute/order?token=${tokenState || ''}`);
 
-  /*menu.json 불러오는 비동기함수, 첫 렌더링에만 실행 */
-  useEffect(()=>{
-    const initMenu = async ()=>{
+  /* 메뉴 초기 로드 */
+  useEffect(() => {
+    const initMenu = async () => {
       await loadMenu();
       setMenu(getActivatedMenuList(activated));
     }
     initMenu();
   }, []);
 
-  /*tap menu 변경 있을 때마다 실행, menu.json에서 활성화된 tap의 메뉴들만 parsing */
-  useEffect(()=>{
+  useEffect(() => {
     setMenu(getActivatedMenuList(activated));
   }, [activated]);
 
   // 첫 렌더링 시 table 번호 있으면 토큰 발급
   useEffect(() => {
-    if (table) {
-      fetchToken(table);
+    if (queryTable) {
+      fetchToken(queryTable);
     }
-  }, [table]);
+  }, [queryTable]);
 
   const [menuData, setMenuData] = useState([]);
-  useEffect(()=>{
-        axios.get("http://127.0.0.1:8000/api/menus/")
-        .then(res =>{
-          console.log("App.js-api/menus/ 확인:", res.data);
-          setMenuData(res.data)})
-        .catch(err => console.error(err));
-    }, []);
+  useEffect(() => {
+    axios.get(`${API_URL}/menus/`)
+      .then(res => {
+        console.log("App.js-api/menus/ 확인:", res.data);
+        setMenuData(res.data);
+      })
+      .catch(err => console.error(err));
+  }, []);
 
-
-  /*메뉴 id와 수량을 매개변수로 받음. 
-    1. 수량을 0으로 만들면 해당 id 가진 인덱스 삭제
-    2. 이전에 수량 변화가 있었던 메뉴면 기존 인덱스에 qty 새 값 덮어씌움
-    3. 이전에 수량 변화가 없었던 메뉴면 새로 인덱스 생성
-     */
   const onSelectMenu = (name, qty) => {
     setMenuQty(prev => {
       if (qty === 0) return prev.filter(item => item.name !== name);
 
-      // menuData에서 현재 메뉴 찾아옴
       const menu = menuData.find(m => String(m.name) === String(name));
 
       console.log("onSelectMenu 실행:", name, qty);
 
-
-
       const exists = prev.find(item => item.name === name);
       if (exists) {
-        return prev.map(item => 
-          item.name === name ? { ...item, qty } : item);
+        return prev.map(item =>
+          item.name === name ? { ...item, qty } : item
+        );
       } else {
         return [...prev, { name, qty, name: menu.name, price: menu.price }];
       }
@@ -115,12 +88,11 @@ function App() {
 
   const [page, setPage] = useState('menu');
 
-  //보안강화!!!!!!!!!!!!최소한만최소한만빠르게!!!!!!!!
-  // 테이블 번호(table)로 서버에 요청해서 JWT 토큰 발급받는 함수
+  // ✅ 테이블 번호로 서버에 요청해서 JWT access 토큰 발급받는 함수
   const fetchToken = async (table) => {
     try {
-      const res = await axios.get(`http://127.0.0.1:8000/api/generate-token/${table}/`);
-      const t = res.data.token;
+      const res = await axios.get(`${API_URL}/generate-token/${table}/`);
+      const t = res.data.access;   // access 토큰만 사용
       setTokenState(t);
       setTableState(table);
       localStorage.setItem('token', t);
@@ -151,23 +123,15 @@ function App() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [queryTable, queryToken]);
 
-
   return (
-    //id 부분에 테이블번호 들어갈 것 파라미터로 넣으면 좋을 듯 ?table=1 식으로.
-    //url 확정은 아니니 참고만 해주시고, 나중에 파라미터들은 암호화합싀다.
-
-    //오 이거 안 읽고 그냥 한 건데 통햇네요.. 후후 후 후 후.. 불면은..구멍이뚫리는..
-    //커다란...솜사탕.... -올빼미가
     <div className='fullscreen'>
       <Routes>
         <Route path='/' element={<Navigate to={'/aehanmute/order/'} />} />
         <Route path='/aehanmute/order' element={
-          <MenuPage 
+          <MenuPage
             currentMenu={activated}
-            onChangeMenu={(key)=>{
-              setActivated(key);
-            }}
-            navUsedAt={(page)=>{ setPage(page); }}
+            onChangeMenu={(key) => { setActivated(key); }}
+            navUsedAt={(page) => { setPage(page); }}
             navState={page}
             menuData={menuData}
             menuQty={menuQty}
@@ -179,27 +143,27 @@ function App() {
           />
         } />
         <Route path='/aehanmute/cart/' element={
-          <CartPage 
-            token={tokenState} //table -> token으로
+          <CartPage
+            token={tokenState}
             goToCart={goToCart}
             goToHistory={goToHistory}
             goToMenu={goToMenu}
             goToResult={goToResult}
-            navUsedAt={(page)=>{ setPage(page); }}
+            navUsedAt={(page) => { setPage(page); }}
             navState={page}
             menuQty={menuQty}
             menuData={menuData}
             onSelectMenu={onSelectMenu}
-            setMenuQty={()=>{ setMenuQty([]) }}
+            setMenuQty={() => { setMenuQty([]) }}
             receipt={receipt}
-            onDecideMenu={(receipt)=>{ setReceipt(receipt); }}
+            onDecideMenu={(receipt) => { setReceipt(receipt); }}
             total={total}
-            setTotal={(receipt)=>{ setTotal(receipt) }}
+            setTotal={(receipt) => { setTotal(receipt) }}
             table={tableState}
           />
         } />
         <Route path='/aehanmute/orderresult/' element={
-          <Result 
+          <Result
             goToMenu={goToMenu}
             token={tokenState}
           />
@@ -209,7 +173,7 @@ function App() {
             goToCart={goToCart}
             goToHistory={goToHistory}
             goToMenu={goToMenu}
-            navUsedAt={(page)=>{ setPage(page); }}
+            navUsedAt={(page) => { setPage(page); }}
             navState={page}
             prevOrders={orders}
             onUpdateOrders={setOrders}
@@ -220,9 +184,7 @@ function App() {
         } />
         <Route path='/oms' element={<Navigate to={'/oms/aehanmute/'} />} />
         <Route path='/oms/aehanmute/' element={
-          <OmsPage 
-            menuData={menuData}
-          />
+          <OmsPage menuData={menuData} />
         } />
       </Routes>
     </div>
