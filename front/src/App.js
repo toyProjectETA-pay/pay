@@ -10,7 +10,8 @@ import axios from "axios";
 import OmsPage from './Pages/OmsPage.js';
 
 // ✅ API Base URL (환경변수로 설정)
-const API_URL = process.env.REACT_APP_API_URL || "http://aehan-mutejujeom/api";
+const API_URL = process.env.REACT_APP_API_URL || "http://aehan-mutejujeom.com/api";
+
 
 function App() {
   const [activated, setActivated] = useState('main');

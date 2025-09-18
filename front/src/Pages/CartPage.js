@@ -47,6 +47,7 @@ const CartPage = (props) => {
   }, [props.menuQty]);
 
   // 서버로 post 요청
+
   const sendDjango = async (receipt, total) => {
     const currentToken = token || localStorage.getItem("token");
 
@@ -59,6 +60,8 @@ const CartPage = (props) => {
       table: Number(props.table),
       grand_total: total,
       is_paid: false,
+      is_done: false,   // ✅ 추가
+      is_ready: false,  // ✅ 추가
       items: receipt.map(item => {
         const menu = menuData.find(m => m.name === item.name);
         return {
