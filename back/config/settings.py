@@ -53,6 +53,8 @@ ROOT_URLCONF = 'config.urls'
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",  # React 개발 서버
     "http://127.0.0.1:3000",
+    "http://aehan-mutejujeom.com",
+    "http://54.180.22.253",
 ]
 
 
