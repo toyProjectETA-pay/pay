@@ -2,6 +2,8 @@ from rest_framework.response import Response
 from rest_framework import generics
 from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework.permissions import IsAuthenticated
+
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
 from .models import Order, Menu, OrderItem
@@ -30,6 +32,7 @@ class OrderViewSet(generics.ListCreateAPIView):
     # 귯결~^^ 
     def get_queryset(self):
         queryset = super().get_queryset()
+        permission_classes = [IsAuthenticated]
 
         # 쿼리스트링으로 받은 값 가져오기
         is_paid = self.request.query_params.get('is_paid')
@@ -87,6 +90,7 @@ def generate_token(request, table_id):
         user = User.objects.create_user(username=f"table_{table_id}", password="dummy1234")
 
     refresh = RefreshToken.for_user(user)
+    refresh["table_id"] = table_id 
     return JsonResponse({
         'refresh': str(refresh),
         'access': str(refresh.access_token),

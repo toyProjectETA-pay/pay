@@ -16,8 +16,14 @@ class OrderSerializer(serializers.ModelSerializer):
     items = OrderItemSerializer(many=True)
 
     class Meta:
-        model = Order
-        fields = ['id', 'table' ,'created_at', 'grand_total', 'is_paid', 'is_done', 'is_ready','items']
+         class Meta:
+            model = Order
+            fields = ['id', 'table', 'created_at', 'grand_total',
+                    'is_paid', 'is_done', 'is_ready','items']
+            extra_kwargs = {
+                'is_done': {'required': False},
+                'is_ready': {'required': False},
+            }
 
     def create(self, validated_data):
         items_data = validated_data.pop('items')
